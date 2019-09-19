@@ -9,6 +9,7 @@ $(document).ready(function(){
         var gap = (end-start)/(dim-1); // establishes the space between the nodes
         var radius = 4.5; // the radius of the circles
         var id = 0;
+        var clickCount = 0;
 
         // adds lines first so that they are always behind the nodes
         for(var i = 0; i < dim; i++) {
@@ -23,7 +24,12 @@ $(document).ready(function(){
                 board.append('<circle id="'+ id +'" class="empty" cx="'+ (start+gap*j) +'" cy="'+ (start+gap*i) +'" r="'+ (radius) +'"/>');
 
                 $(document).on('click', '#'+id, function() {
-                    $(this).removeClass('empty').addClass('black');
+                    if (clickCount % 2 == 0) {
+                        $(this).removeClass('empty').addClass('black');
+                    } else {
+                        $(this).removeClass('empty').addClass('white');
+                    }
+                    clickCount++;
                 });
 
                 id++;

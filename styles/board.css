@@ -1,0 +1,52 @@
+#board {
+    width: 43%;
+    height: 0;
+    padding-bottom: 43%;
+    margin: 20px auto;
+    background-image: url("/backgrounds/woodgrain001.jpg");
+    border-style: solid;
+    border-radius: 10px;
+    border-color: black;
+}
+
+svg.board {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    stroke-linecap: square;
+}
+
+line {
+    stroke: black;
+    stroke-width: .8;
+}
+
+circle {
+    stroke-width: .8;
+}
+
+circle.empty {
+    stroke: none;
+    fill: red;
+    fill-opacity: 0;
+}
+
+circle.empty:hover, circle.empty:focus {
+    stroke: red;
+    stroke-width: 2;
+    fill-opacity: 1;
+    stroke-opacity: .5;
+}
+
+circle.white {
+    stroke: black;
+    fill: white;
+    fill-opacity: 1;
+}
+
+circle.black {
+    stroke: black;
+    fill: black;
+    fill-opacity: 1;
+}
