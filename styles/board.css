@@ -1,9 +1,9 @@
 #board {
-    width: 40%;
+    width: 43%;
     height: 0;
-    padding-bottom: 40%;
+    padding-bottom: 43%;
     margin: 20px auto;
-    background-image: url("../backgrounds/woodgrain001.jpg");
+    background-image: url("/backgrounds/woodgrain001.jpg");
     border-style: solid;
     border-radius: 10px;
     border-color: black;
