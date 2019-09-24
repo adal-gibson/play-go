@@ -4,19 +4,33 @@ body {
     /* font-family: 'Quicksand', sans-serif; */
 }
 
-h1 {
+h1, h2 {
     text-align: center;
 }
 
 #content {
-    width: 80%;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
     border-style: solid;
+    border-color: red;
 }
 
 #controls {
     float: left;
-    width: 20%;
+    width: 30%;
     border-style: solid;
+    border-color: green;
+}
+
+#new-game {
+    border-style: solid;
+    border-color: blue;
+    margin: 2%;
+}
+
+#join-game {
+    border-style: solid;
+    border-color: purple;
+    margin: 2%;
 }

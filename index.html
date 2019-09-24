@@ -19,19 +19,39 @@
     </head>
 
     <body>
-        <h1> Placeholder h1 </h1>
+        <h1> Play Go </h1>
         <div id="content">
             <div id="controls">
                 <div id="new-game">
-                    <label for="player-name-new">Enter a Player Name</label>
-                    <input type="text" name="player-name-new" id="player-name-new" placeholder="player name">
-                    <button id="new-game-button">New Game</button>
+                    <h2> Create a New Game </h2>
+                    <form> <!-- don't know where this needs to be submitted yet -->
+                        <label for="player-name-new">Enter a Player Name</label>
+                        <input type="text" name="player-name-new" id="player-name-new" placeholder="player name">
+
+                        <label for="stone-color">Select a Stone Color</label>
+                        <div class="radio">
+                            <input type="radio" name="stone-color" value="black" checked>Black</input>
+                            <input type="radio" name="stone-color" value="white">White</input>
+                        </div>
+
+                        <label for="board-size">Select a Board Size</label>
+                        <div class="radio">
+                            <input type="radio" name="board-size" value="9" checked>9x9</input>
+                            <input type="radio" name="board-size" value="13">13x13</input>
+                            <input type="radio" name="board-size" value="19">19x19</input>
+                        </div>
+
+                        <input type="submit" value="New Game" id="new-game-button"></input>
+                    </form>
                 </div>
 
                 <div id="join-game">
-                    <label for="player-name-join">Enter a Player Name</label>
-                    <input type="text" name="player-name-join" id="player-name-join" placeholder="player name">
-                    <button id="join-game-button">Join Game</button>
+                    <h2> Join an Existing Game </h2>
+                    <form> <!-- don't know where this needs to be submitted yet -->
+                        <label for="player-name-join">Enter a Player Name</label>
+                        <input type="text" name="player-name-join" id="player-name-join" placeholder="player name">
+                        <input type="submit" value="Join Game" id="join-game-button"></input>
+                    </form>
                 </div>
             </div>
 
