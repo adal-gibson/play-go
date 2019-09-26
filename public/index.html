@@ -9,22 +9,22 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand|Roboto+Mono|Roboto+Slab&display=swap"> <!-- adds fonts -->
         <!-- main styles -->
-        <link rel="stylesheet" type="text/css" href="/main.css">
+        <link rel="stylesheet" type="text/css" href="/styles/main.css">
         <!-- styles the board -->
-        <link rel="stylesheet" type="text/css" href="/board.css">
+        <link rel="stylesheet" type="text/css" href="/styles/board.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- allows me to use jquery -->
         <!-- link to my jquery file -->
-        <script src="/board.js"></script>
+        <!-- <script src="/board.js"></script> -->
     </head>
 
     <body>
         <h1> Play Go </h1>
         <div id="content">
-            <div id="controls">
+            <div id="menu">
                 <div id="new-game">
                     <h2> Create a New Game </h2>
-                    <form> <!-- don't know where this needs to be submitted yet -->
+                    <div class="form"> <!-- don't know where this needs to be submitted yet -->
                         <label for="player-name-new">Enter a Player Name</label>
                         <input type="text" name="player-name-new" id="player-name-new" placeholder="player name">
 
@@ -41,17 +41,19 @@
                             <input type="radio" name="board-size" value="19">19x19</input>
                         </div>
 
-                        <input type="submit" value="New Game" id="new-game-button"></input>
-                    </form>
+                        <button id="new">New Game</button>
+                    </div>
                 </div>
 
                 <div id="join-game">
                     <h2> Join an Existing Game </h2>
-                    <form> <!-- don't know where this needs to be submitted yet -->
+                    <div class="form"> <!-- don't know where this needs to be submitted yet -->
                         <label for="player-name-join">Enter a Player Name</label>
                         <input type="text" name="player-name-join" id="player-name-join" placeholder="player name">
-                        <input type="submit" value="Join Game" id="join-game-button"></input>
-                    </form>
+                        <label for="game-id">Enter an Existing Game ID</label>
+                        <input type="text" name="room-id" id="game-id" placeholder="game id">
+                        <button id="join">Join Game</button>
+                    </div>
                 </div>
             </div>
 
@@ -62,7 +64,7 @@
 
         <!-- includes socket.io -->
         <script src="/socket.io/socket.io.js"></script>
+        <script src="/main.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-        <script src="server/emit-move.js"></script>
     </body>
 </html>

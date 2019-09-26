@@ -1,10 +1,17 @@
+/**
+ * handles events, manages game rooms
+ * used // https://ayushgp.github.io/Tic-Tac-Toe-Socket-IO/ as a reference
+ */
+
 var express = require('express');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-app.use(express.static('jquery')); // sets path for jquery folder
-app.use(express.static('styles')); // sets path for styles folder
+app.use(express.static('public'));
+app.use(express.static('server'));
+
+let rooms = 0;
 
 // loads index.html
 app.get('/', function(req, res){
@@ -15,10 +22,9 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
     console.log('a user connected');
 
-    // https://ayushgp.github.io/Tic-Tac-Toe-Socket-IO/
     socket.on('createGame', function(data){
-        socket.join('room-' + ++rooms);
-        socket.emit('newGame', {name: data.name, room: 'room-'+rooms});
+        socket.join('game-' + ++rooms);
+        socket.emit('newGame', {name: data.name, room: data.room, boardSize: data.boardSize, stoneColor: data.stoneColor});
     });
 
     socket.on('joinGame', function(data){
@@ -48,9 +54,6 @@ io.on('connection', function(socket){
         console.log('user disconnected');
     });
 });
-
-
-
 
 
 // from socket.io documentation

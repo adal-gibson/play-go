@@ -1,7 +1,7 @@
 body {
-    /* font-family: 'Roboto Mono', monospace; */
-    font-family: 'Roboto Slab', serif;
-    /* font-family: 'Quicksand', sans-serif; */
+    font-family: 'Roboto Mono', monospace;
+    /* font-family: 'Roboto Slab', serif;
+    font-family: 'Quicksand', sans-serif; */
 }
 
 h1, h2 {
@@ -16,7 +16,7 @@ h1, h2 {
     border-color: red;
 }
 
-#controls {
+#menu {
     float: left;
     width: 30%;
     border-style: solid;
