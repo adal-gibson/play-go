@@ -14,20 +14,24 @@ app.use(express.static('server'));
 let rooms = 0;
 
 // loads index.html
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', function(req, res){
+//     console.log("index.html loaded");
+//     res.sendFile(__dirname + '/index.html');
+// });
 
 // controls what happens when a user connects
 io.on('connection', function(socket){
     console.log('a user connected');
 
     socket.on('createGame', function(data){
-        socket.join('game-' + ++rooms);
-        socket.emit('newGame', {name: data.name, room: data.room, boardSize: data.boardSize, stoneColor: data.stoneColor});
+        console.log("createGame called");
+        var room = 'game-' + ++rooms;
+        socket.join(room);
+        socket.emit('newGame', {name: data.name, boardSize: data.boardSize, stoneColor: data.stoneColor, room: room});
     });
 
     socket.on('joinGame', function(data){
+        console.log("joinGame called");
         var room = io.nsps['/'].adapter.rooms[data.room];
         if( room && room.length == 1){
             socket.join(data.room);
@@ -40,6 +44,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('playTurn', function(data){
+        console.log("playTurn called");
         socket.broadcast.to(data.room).emit('turnPlayed', {
             node: data.node,
             room: data.room
@@ -47,6 +52,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('gameEnded', function(data){
+        console.log("gameEnded called");
         socket.broadcast.to(data.room).emit('gameEnd', data);
     });
 
