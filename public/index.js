@@ -21,13 +21,14 @@ let rooms = 0;
 
 // controls what happens when a user connects
 io.on('connection', function(socket){
-    console.log('a user connected');
+    // console.log('a user connected');
 
     socket.on('createGame', function(data){
         console.log("createGame called");
+        console.log("COLOR: " + data.color);
         var room = 'game-' + ++rooms;
         socket.join(room);
-        socket.emit('newGame', {name: data.name, boardSize: data.boardSize, stoneColor: data.stoneColor, room: room});
+        socket.emit('newGame', {name: data.name, boardSize: data.boardSize, color: data.color, room: room});
     });
 
     socket.on('joinGame', function(data){
@@ -57,7 +58,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
-        console.log('user disconnected');
+        // console.log('user disconnected');
     });
 });
 

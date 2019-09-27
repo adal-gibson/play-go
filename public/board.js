@@ -8,7 +8,7 @@ $(document).ready(function(){
         var start = 8; // the percentage padding that svg needs to not cut off nodes
         var end = 92; // same percentage that needs to be added
         var gap = (end-start)/(dim-1); // establishes the space between the nodes
-        var radius = ((end-start)/(dim-1))/2-0.5; // the radius of the circles
+        var radius = ((end-start)/(dim-1))/2-1; // the radius of the circles
         var id = 0; // id of the first node
         var clickCount = 0; // SUPER HACKY - GOTTA GET RID OF THIS
         var asciiA = 65;
@@ -29,14 +29,14 @@ $(document).ready(function(){
                 // console.log("j: " + j);
                 board.append('<circle id="'+ id +'" class="empty" cx="'+ (start+gap*j) +'" cy="'+ (start+gap*i) +'" r="'+ (radius) +'"/>');
 
-                $(document).on('click', '#'+id, function() {
-                    if (clickCount % 2 == 0) {
-                        $(this).removeClass('empty').addClass('black');
-                    } else {
-                        $(this).removeClass('empty').addClass('white');
-                    }
-                    clickCount++;
-                });
+                // $(document).on('click', '#'+id, function() {
+                //     if (clickCount % 2 == 0) {
+                //         $(this).removeClass('empty').addClass('black');
+                //     } else {
+                //         $(this).removeClass('empty').addClass('white');
+                //     }
+                //     clickCount++;
+                // });
 
                 id++;
             }

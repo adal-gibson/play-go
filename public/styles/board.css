@@ -54,6 +54,12 @@ circle.black {
     fill-opacity: 1;
 }
 
+circle.clicked {
+    stroke: blue;
+    fill: blue;
+    fill-opacity: .5;
+}
+
 text {
     stroke: black;
     stroke-width: .24;

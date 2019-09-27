@@ -73,19 +73,59 @@
     /**
      * Create the Game board by attaching event listeners to the buttons.
      */
-    Game.prototype.createGameBoard = function(){
+    Game.prototype.createGameBoard = function(data){
         console.log("createGameBoard called");
+
+        var color = data.color;
+        var dim = data.boardSize; // the dimensions of the board
+        var board = $('<svg class="board" width="100%" height="100%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg"/>'); // means html will be appended in a div
+        var start = 8; // the percentage padding that svg needs to not cut off nodes
+        var end = 92; // same percentage that needs to be added
+        var gap = (end-start)/(dim-1); // establishes the space between the nodes
+        var radius = ((end-start)/(dim-1))/2-0.5; // the radius of the circles
+        let id = 0; // id of the first node
+        var asciiA = 65;
+
+        // adds lines first so that they are always behind the nodes
+        for(var i = 0; i < dim; i++) {
+            board.append('<text x="'+ 2 +'" y="'+ (start+(gap*(i))+(gap/11)) +'" font-size="'+ gap/3 +'">'+ (dim-i) +' </text>') // numbers - on left
+            board.append('<text x="'+ 95 +'" y="'+ (start+(gap*(i))+(gap/11)) +'" font-size="'+ gap/3 +'">'+ (dim-i) +' </text>') // numbers - on right
+            board.append('<text x="'+ (start+(gap*(i))-(gap/11)) +'" y="'+ 5 +'" font-size="'+ gap/3 +'">'+ String.fromCharCode(asciiA + i) +' </text>') // letters - top
+            board.append('<text x="'+ (start+(gap*(i))-(gap/11)) +'" y="'+ 98 +'" font-size="'+ gap/3 +'">'+ String.fromCharCode(asciiA + i) +' </text>') // letters - bottom
+            board.append('<line x1="'+ (start+gap*i) +'" y1="'+ (start) +'" x2="'+ (start+gap*i) +'" y2="'+ (end) +'" />'); // vertical lines
+            board.append('<line x1="'+ (start) +'" y1="'+ (start+gap*i) +'" x2="'+ (end) +'" y2="'+ (start+gap*i) +'" />'); // horizontal lines
+        }
+
+        for(var i = 0; i < dim; i++) { // x
+            for(var j = 0; j < dim; j++) { // y
+                board.append('<circle id="'+ id++ +'" class="empty" cx="'+ (start+gap*j) +'" cy="'+ (start+gap*i) +'" r="'+ (radius) +'"/>');
+            }
+        }
+
+        $(document).on('click', '.empty', function() {
+            console.log("clicked with color " + color);
+            console.log(this);
+            $(this).removeClass("empty").addClass(color);
+            console.log(this);
+
+            socket.emit('playTurn', {});
+            return false; // was supposed to help but didn't
+        });
+
+        $('#board').html(board);
+        $("body").html($("body").html()); // workaround for appending svg
     }
 
     /**
      * Remove the menu from DOM, display the gameboard and greet the player.
      */
-    Game.prototype.displayBoard = function(message){
+    Game.prototype.displayBoard = function(message, data){
         console.log("displayBoard called");
         $('.menu').css('display', 'none');
         $('.gameBoard').css('display', 'block');
         $('#userHello').html(message);
-        this.createGameBoard();
+        $('#heading').html(data.roomID);
+        this.createGameBoard({boardSize: data.boardSize, color: data.color});
     }
 
     /**
@@ -162,7 +202,7 @@
             alert('Please enter your name.');
             return;
         }
-        socket.emit('createGame', {name: name, boardSize: dim, stoneColor: color});
+        socket.emit('createGame', {name: name, boardSize: dim, color: color});
         console.log("createGame should have just been emitted");
         player = new Player(name, P1);
     });
@@ -193,7 +233,7 @@
 
         // Create game for player 1
         game = new Game(data.room);
-        game.displayBoard(message);
+        game.displayBoard(message, {boardSize: data.boardSize, color: data.color});
     });
 
     /**
