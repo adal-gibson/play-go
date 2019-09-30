@@ -121,10 +121,11 @@
      */
     Game.prototype.displayBoard = function(message, data){
         console.log("displayBoard called");
-        $('.menu').css('display', 'none');
-        $('.gameBoard').css('display', 'block');
-        $('#userHello').html(message);
-        $('#heading').html(data.roomID);
+        // $('.menu').css('display', 'none');
+        // $('.gameBoard').css('display', 'block');
+        // $('#userHello').html(message);
+        console.log(data.room);
+        $('#heading').html(data.room);
         this.createGameBoard({boardSize: data.boardSize, color: data.color});
     }
 
@@ -133,9 +134,9 @@
      */
     Game.prototype.updateBoard = function(type, row, col, tile){
         console.log("updateBoard called");
-        $('#'+tile).text(type);
-        $('#'+tile).prop('disabled', true);
-        this.board[row][col] = type;
+        // $('#'+tile).text(type);
+        // $('#'+tile).prop('disabled', true);
+        // this.board[row][col] = type;
         this.moves ++;
     }
 
@@ -233,7 +234,7 @@
 
         // Create game for player 1
         game = new Game(data.room);
-        game.displayBoard(message, {boardSize: data.boardSize, color: data.color});
+        game.displayBoard(message, {boardSize: data.boardSize, color: data.color, room: data.room});
     });
 
     /**
@@ -264,8 +265,8 @@
      * Allow the current player to play now.
      */
     socket.on('turnPlayed', function(data){
-        var row = data.tile.split('_')[1][0];
-        var col = data.tile.split('_')[1][1];
+        // var row = data.tile.split('_')[1][0];
+        // var col = data.tile.split('_')[1][1];
         var opponentType = player.getPlayerType() == P1 ? P2 : P1;
         game.updateBoard(opponentType, row, col, data.tile);
         player.setCurrentTurn(true);
