@@ -1,0 +1,36 @@
+body {
+    font-family: 'Roboto Mono', monospace;
+    /* font-family: 'Roboto Slab', serif;
+    font-family: 'Quicksand', sans-serif; */
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#content {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: red;
+}
+
+#menu {
+    float: left;
+    width: 30%;
+    border-style: solid;
+    border-color: green;
+}
+
+#new-game {
+    border-style: solid;
+    border-color: blue;
+    margin: 2%;
+}
+
+#join-game {
+    border-style: solid;
+    border-color: purple;
+    margin: 2%;
+}

@@ -1,12 +1,15 @@
 #board {
-    width: 43%;
+    width: 65%;
     height: 0;
-    padding-bottom: 43%;
+    padding-bottom: 65%;
     margin: 20px auto;
-    background-image: url("/backgrounds/woodgrain001.jpg");
+    background-image: url("/styles/backgrounds/woodgrain004.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     border-style: solid;
     border-radius: 10px;
     border-color: black;
+    float: right;
 }
 
 svg.board {
@@ -49,4 +52,16 @@ circle.black {
     stroke: black;
     fill: black;
     fill-opacity: 1;
+}
+
+circle.clicked {
+    stroke: blue;
+    fill: blue;
+    fill-opacity: .5;
+}
+
+text {
+    stroke: black;
+    stroke-width: .24;
+    fill: brown;
 }
