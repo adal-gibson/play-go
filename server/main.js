@@ -77,22 +77,6 @@ io.on("connection", function(socket) {
     console.log('user disconnected');
   });
 
-  socket.on("updateList", function() {
-    console.log("updateList");
-
-    // $('#selectGame').append("<option>" + "works!" + "</option>");
-
-    // from https://www.w3schools.com/jsref/met_node_appendchild.asp
-    var node = document.createElement("OPTION");
-    var textNode = document.createTextNode("this worked");
-    node.appendChild(textNode);
-    document.getElementById("selectGame").appendChild(node);
-
-    // from https://stackoverflow.com/questions/54430314/iterate-through-rooms-for-a-given-socket
-    // Object.keys(socket.rooms).forEach(function(roomName){
-    //   $('#selectGame').append("<option>" + roomName + "</option>");
-    // });
-  });
 });
 
 // from socket.io documentation
