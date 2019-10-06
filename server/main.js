@@ -20,14 +20,7 @@ io.on("connection", function(socket) {
     socket.on("createGame", function(data) {
         socket.emit("test", { name: data.name });
         console.log("createGame - index.js");
-        socket.name1 = data.name;
-        socket.boardSize = data.boardSize;
-        socket.color = data.color;
 
-        // console.log("socket: " + JSON.stringify(socket, null, 4));
-
-        // console.log("createGame - index.js");
-        // console.log("COLOR: " + data.color);
         var room = "game-" + (++rooms);
         socket.join(room);
         socket.emit("newGame", {
@@ -41,17 +34,12 @@ io.on("connection", function(socket) {
 
     socket.on("joinGame", function(data) {
         console.log("joinGame - index.js");
-        // console.log("(joinGame) data: " + JSON.stringify(data, null, 4));
-        // console.log("(joinGame) socket: " + JSON.stringify(socket, null, 4));
+
         var room = io.nsps["/"].adapter.rooms[data.room];
         if (room && room.length == 1) {
-            // console.log("joinGame successfully emitted");
             socket.join(data.room);
-            socket.broadcast.to(data.room).emit("player1", {});
-            console.log("player1 emitted by joinGame");
-            socket.emit("player2", { name: data.name, room: data.room });
-            console.log("player2 emitted by joinGame");
-            // socket.emit("existingGame", { name: socket.name, color: socket.color, room: data.room });
+            socket.broadcast.to(data.room).emit("player1", { room: data.room, player2Name: data.name });
+            socket.emit("player2", { player2Name: data.name, room: data.room });
         } else {
             socket.emit("err", { message: "Sorry, The room is full!" });
         }
@@ -59,17 +47,17 @@ io.on("connection", function(socket) {
 
     socket.on("playTurn", function(data) {
         console.log("playTurn - index.js");
-        socket.broadcast.to(data.room).emit("turnPlayed", {
-            node: data.node,
-            room: data.room
-        });
-        console.log("turnPlayed emitted by playTurn");
+        // socket.broadcast.to(data.room).emit("turnPlayed", {
+        //     node: data.node,
+        //     room: data.room
+        // });
+        // console.log("turnPlayed emitted by playTurn");
     });
 
     socket.on("gameEnded", function(data) {
         console.log("gameEnded - index.js");
-        socket.broadcast.to(data.room).emit("gameEnd", data);
-        console.log("gameEnd emitted by gameEnded")
+        // socket.broadcast.to(data.room).emit("gameEnd", data);
+        // console.log("gameEnd emitted by gameEnded")
     });
 
     socket.on("disconnect", function() {
