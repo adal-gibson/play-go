@@ -4,9 +4,14 @@
  */
 
 (function() {
+
+    var socket = io();
+    var player, game;
+
     // Types of players
-    var P1 = "white",
-    P2 = "black";
+    // probably going to remove this
+    var P1 = "white";
+    var P2 = "black";
 
     var Player = function(name, color) {
         this.name = name;
@@ -19,12 +24,12 @@
      * Set the bit of the move played by the player
      */
     Player.prototype.updateMovesPlayed = function(tileValue) {
-        console.log("updateMovesPlayed - main.js");
+        console.log("updateMovesPlayed - index.js");
         this.movesPlayed += tileValue;
     };
 
     Player.prototype.getMovesPlayed = function() {
-        console.log("getMovesPlayed - main.js");
+        console.log("getMovesPlayed - index.js");
         return this.movesPlayed;
     };
 
@@ -32,7 +37,7 @@
      * Set the currentTurn for player to turn and update UI to reflect the same.
      */
     Player.prototype.setCurrentTurn = function(turn) {
-        console.log("setCurrentTurn - main.js");
+        console.log("setCurrentTurn - index.js");
         this.currentTurn = turn;
         if (turn) {
             $("#turn").text("Your turn.");
@@ -42,12 +47,12 @@
     };
 
     Player.prototype.getPlayerName = function() {
-        console.log("getPlayerName - main.js");
+        console.log("getPlayerName - index.js");
         return this.name;
     };
 
     Player.prototype.getPlayerColor = function() {
-        console.log("getPlayerColor - main.js");
+        console.log("getPlayerColor - index.js");
         return this.color;
     };
 
@@ -55,7 +60,7 @@
      * Returns currentTurn to determine if it is the player's turn.
      */
     Player.prototype.getCurrentTurn = function() {
-        console.log("getCurrentTurn main.js");
+        console.log("getCurrentTurn index.js");
         return this.currentTurn;
     };
 
@@ -83,6 +88,8 @@
      */
     Game.prototype.createGameBoard = function(data) {
         console.log("createGameBoard called");
+
+        console.log(JSON.stringify(data, null, 4));
 
         var color = data.color;
         var dim = data.boardSize; // the dimensions of the board
@@ -115,7 +122,7 @@
         $(document).on("click", ".empty", function() {
             console.log("clicked with color " + color);
             $(this).removeClass("empty").addClass(color);
-            socket.emit("playTurn", {});
+            // socket.emit("playTurn", {});
             return false; // was supposed to help but didn't
         });
 
@@ -123,33 +130,37 @@
         $("body").html($("body").html()); // workaround for appending svg
     };
 
-    Game.prototype.displayBoard = function(message, data) {
-        console.log("displayBoard - main.js");
-        // $('.menu').css('display', 'none');
-        // $('.gameBoard').css('display', 'block');
-        // $('#userHello').html(message);
-        $("#heading").html(data.room);
-        this.createGameBoard({ boardSize: data.boardSize, color: data.color });
-    };
+    // Game.prototype.displayBoard = function(message, data) {
+    //     console.log("displayBoard - index.js");
+    //     // $('.menu').css('display', 'none');
+    //     // $('.gameBoard').css('display', 'block');
+    //     // $('#userHello').html(message);
+    //     $("#heading").html(data.room);
+    //     this.createGameBoard({ boardSize: data.boardSize, color: data.color });
+    // };
 
     /**
      * Update game board UI
      */
     Game.prototype.updateBoard = function(type, row, col, tile) {
-        console.log("updateBoard - main.js");
+        console.log("updateBoard - index.js");
         // this.moves++;
     };
 
     Game.prototype.getRoomId = function() {
-        console.log("getRoomId - main.js");
+        console.log("getRoomId - index.js");
         return this.roomId;
+    };
+
+    Game.prototype.getBoardSize = function() {
+        return this.boardSize;
     };
 
     /**
      * Send an update to the opponent to update their UI.
      */
     Game.prototype.playTurn = function(tile) {
-        console.log("playTurn - main.js");
+        console.log("playTurn - index.js");
         var clickedTile = $(tile).attr("id");
         var turnObj = {
             tile: clickedTile,
@@ -164,7 +175,7 @@
      * Broadcast this on the room to let the opponent know.
      */
     Game.prototype.announceWinner = function() {
-        console.log("announceWinner - main.js");
+        console.log("announceWinner - index.js");
         // var message = player.getPlayerName() + " wins!";
         // socket.emit("gameEnded", { room: this.getRoomId(), message: message });
         // alert(message);
@@ -175,19 +186,16 @@
      * End the game if the other player won.
      */
     Game.prototype.endGame = function(message) {
-        console.log("endGame - main.js");
+        console.log("endGame - index.js");
         alert(message);
         location.reload();
     };
-
-    var socket = io.connect();
-    var player, game;
 
     /**
      * Create a new game. Emit newGame event.
      */
     $("#new").on("click", function() {
-        console.log("#new on click - main.js");
+        console.log("#new on click - index.js");
         var name = $("#player-name-new").val();
         var dim = $('input[name="board-size"]:checked').val();
         var color = $('input[name="stone-color"]:checked').val();
@@ -204,7 +212,7 @@
      *  Join an existing game on the entered roomId. Emit the joinGame event.
      */
     $("#join").on("click", function() {
-        console.log("#join on click - main.js");
+        console.log("#join on click - index.js");
         var name = $("#player-name-join").val();
         var gameId = $("#game-id").val();
         if (!name || !gameId) {
@@ -222,18 +230,18 @@
      * Update the UI and create new Game var.
      */
     socket.on("newGame", function(data) {
-        console.log("newGame - main.js");
+        console.log("newGame - index.js");
         var message = "Hello, " + data.name + ". Please ask your friend to enter Game ID: " + data.room + ". Waiting for player 2...";
 
+        $("#heading").html(data.room);
         // Create game for player 1
-        game = new Game(data.room);
-        game.displayBoard(message, {
+        game = new Game(data.room, data.boardSize);
+        game.createGameBoard({
             name: data.name,
             boardSize: data.boardSize,
             color: data.color,
             room: data.room
         });
-        console.log("displayBoard called by newGame")
     });
 
 
@@ -241,29 +249,29 @@
      * This event is received when opponent connects to the room.
      */
     socket.on("player1", function(data) {
-        console.log("player1 - main.js");
-        // console.log("(player1) data: " + JSON.stringify(data, null, 4));
-        // var message = "Hello, " + player.getPlayerName();
-        // $("#userHello").html(message);
-        // player.setCurrentTurn(true);
-
-        $("#heading").html("room: " + data.room + ", player1: " + "" + ", player2: " + data.player2Name);
+        console.log("player1 - index.js");
+        $("#heading").html("room: " + data.room + ", player1: " + player.getPlayerName() + ", player2: " + data.player2);
+        var color = "white";
+        if (player.getPlayerColor() === "white") {
+            color = "black";
+        }
+        socket.emit("broadcast", {
+            room: data.room,
+            player1: player.getPlayerName(),
+            boardSize: game.getBoardSize(),
+            color: color
+        });
     });
 
-    /**
-     * This event is received when P2 successfully joins the game room.
-     */
+
     socket.on("player2", function(data) {
-        console.log("player2 - main.js");
-        // console.log("(player2) data: " + JSON.stringify(data, null, 4));
+        console.log("player2 - index.js");
         var message = "Hello, " + data.player2Name;
-        $("#heading").html("room: " + data.room + ", player1: " + "" + ", player2: " + data.player2Name);
 
         //Create game for player 2
-        game = new Game(data.room);
-        game.displayBoard(message, data);
-        console.log("displayBoard called by player2")
-        // player.setCurrentTurn(false); need to set turn based on color
+        game = new Game(data.room, data.boardSize);
+        game.createGameBoard(data);
+        $("#heading").html("room: " + data.room + ", player1: " + data.player1 + ", player2: " + player.getPlayerName());
     });
 
     /**
@@ -271,7 +279,7 @@
      * Allow the current player to play now.
      */
     socket.on("turnPlayed", function(data) {
-        console.log("turnPlayed - main.js");
+        console.log("turnPlayed - index.js");
         // var opponentType = player.getPlayerType() == P1 ? P2 : P1;
         // game.updateBoard(opponentType, row, col, data.tile);
         player.setCurrentTurn(true);
@@ -282,7 +290,7 @@
      * Notify the user about either scenario and end the game.
      */
     socket.on("gameEnd", function(data) {
-        console.log("gameEnd - main.js");
+        console.log("gameEnd - index.js");
         game.endGame(data.message);
         socket.leave(data.room);
     });
@@ -291,9 +299,12 @@
      * End the game on any err event
      */
     socket.on("err", function(data) {
-        console.log("err - main.js");
+        console.log("err - index.js");
         // game.endGame(data.message);
     });
+
+
+
 
 
     socket.on("test", function(data) {
