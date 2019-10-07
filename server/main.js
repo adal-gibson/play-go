@@ -50,13 +50,9 @@ io.on("connection", function(socket) {
         socket.broadcast.to(data.room).emit("player2", data);
     });
 
-    socket.on("playTurn", function(data) {
-        console.log("playTurn - main.js");
-        // socket.broadcast.to(data.room).emit("turnPlayed", {
-        //     node: data.node,
-        //     room: data.room
-        // });
-        // console.log("turnPlayed emitted by playTurn");
+    socket.on("broadcastTurn", function(data) {
+        console.log("broadcast turn, player: " + data.player + ", color: " + data.color + ", id: " + data.id);
+        socket.broadcast.to(data.room).emit("getMove", { id: data.id, color: data.color })
     });
 
 
