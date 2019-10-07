@@ -1,69 +1,320 @@
 /**
- * handles events, manages game rooms
- * used // https://ayushgp.github.io/Tic-Tac-Toe-Socket-IO/ as a reference
+ * javascript
+ * used // https://ayushgp.github.io/Tic-Tac-Toe-Socket-IO/ as a guide
  */
 
-var express = require('express');
-var app = express();
-var https = require('https').createServer(app);
-var io = require('socket.io')(https);
+(function() {
 
-app.use(express.static('public'));
-app.use(express.static('server'));
+    var socket = io();
+    var player, game;
 
-let rooms = 0;
+    // Types of players
+    // probably going to remove this
+    var P1 = "white";
+    var P2 = "black";
 
-// loads index.html
-// app.get('/', function(req, res){
-//     console.log("index.html loaded");
-//     res.sendFile(__dirname + '/index.html');
-// });
+    var Player = function(name, color) {
+        this.name = name;
+        this.color = color;
+        this.currentTurn = true;
+        this.movesPlayed = 0;
+    };
 
-// controls what happens when a user connects
-io.on('connection', function(socket){
-    // console.log('a user connected');
+    /**
+     * Set the bit of the move played by the player
+     */
+    Player.prototype.updateMovesPlayed = function(tileValue) {
+        console.log("updateMovesPlayed - index.js");
+        this.movesPlayed += tileValue;
+    };
 
-    socket.on('createGame', function(data){
-        console.log("createGame called");
-        console.log("COLOR: " + data.color);
-        var room = 'game-' + ++rooms;
-        socket.join(room);
-        socket.emit('newGame', {name: data.name, boardSize: data.boardSize, color: data.color, room: room});
+    Player.prototype.getMovesPlayed = function() {
+        console.log("getMovesPlayed - index.js");
+        return this.movesPlayed;
+    };
+
+    /**
+     * Set the currentTurn for player to turn and update UI to reflect the same.
+     */
+    Player.prototype.setCurrentTurn = function(turn) {
+        console.log("setCurrentTurn - index.js");
+        this.currentTurn = turn;
+        if (turn) {
+            $("#turn").text("Your turn.");
+        } else {
+            $("#turn").text("Waiting for Opponent");
+        }
+    };
+
+    Player.prototype.getPlayerName = function() {
+        console.log("getPlayerName - index.js");
+        return this.name;
+    };
+
+    Player.prototype.getPlayerColor = function() {
+        console.log("getPlayerColor - index.js");
+        return this.color;
+    };
+
+    /**
+     * Returns currentTurn to determine if it is the player's turn.
+     */
+    Player.prototype.getCurrentTurn = function() {
+        console.log("getCurrentTurn index.js");
+        return this.currentTurn;
+    };
+
+
+    Player.prototype.getGame = function() {
+        return this.game;
+    };
+
+    Player.prototype.setGame = function(game) {
+        this.game = game;
+    }
+
+    /**
+     * Game class
+     */
+    var Game = function(roomId, boardSize) {
+        this.roomId = roomId;
+        this.board = [];
+        this.moves = 0;
+        this.boardSize = boardSize;
+    };
+
+    /**
+     * Create the Game board by attaching event listeners to the buttons.
+     */
+    Game.prototype.createGameBoard = function(data) {
+        console.log("createGameBoard called");
+
+        console.log(JSON.stringify(data, null, 4));
+
+        var color = data.color;
+        var dim = data.boardSize; // the dimensions of the board
+        var board = $('<svg class="board" width="100%" height="100%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg"/>'); // means html will be appended in a div
+        var start = 8; // the percentage padding that svg needs to not cut off nodes
+        var end = 92; // same percentage that needs to be added
+        var gap = (end - start) / (dim - 1); // establishes the space between the nodes
+        var radius = (end - start) / (dim - 1) / 2 - 0.5; // the radius of the circles
+        let id = 0; // id of the first node
+        var asciiA = 65;
+
+        // adds lines first so that they are always behind the nodes
+        for (var i = 0; i < dim; i++) {
+            board.append('<text x="' + 2 + '" y="' + (start + gap * i + gap / 11) + '" font-size="' + gap / 3 + '">' + (dim - i) + " </text>"); // numbers - on left
+            board.append('<text x="' + 95 + '" y="' + (start + gap * i + gap / 11) + '" font-size="' + gap / 3 + '">' + (dim - i) + " </text>"); // numbers - on right
+            board.append('<text x="' + (start + gap * i - gap / 11) + '" y="' + 5 + '" font-size="' + gap / 3 + '">' + String.fromCharCode(asciiA + i) + " </text>"); // letters - top
+            board.append('<text x="' + (start + gap * i - gap / 11) + '" y="' + 98 + '" font-size="' + gap / 3 + '">' + String.fromCharCode(asciiA + i) + " </text>"); // letters - bottom
+            board.append('<line x1="' + (start + gap * i) + '" y1="' + start + '" x2="' + (start + gap * i) + '" y2="' + end + '" />'); // vertical lines
+            board.append('<line x1="' + start + '" y1="' + (start + gap * i) + '" x2="' + end + '" y2="' + (start + gap * i) + '" />'); // horizontal lines
+        }
+
+        for (var i = 0; i < dim; i++) {
+            // x
+            for (var j = 0; j < dim; j++) {
+                // y
+                board.append('<circle id="' + (id++) + '" class="empty" cx="' + (start + gap * j) + '" cy="' + (start + gap * i) + '" r="' + radius + '"/>');
+            }
+        }
+
+        $(document).on("click", ".empty", function() {
+            console.log("clicked with color " + color);
+            $(this).removeClass("empty").addClass(color);
+            var id = $(this).attr('id');
+            socket.emit("broadcastTurn", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
+            // return false; // was supposed to help but didn't
+        });
+
+        $("#board").html(board);
+        $("body").html($("body").html()); // workaround for appending svg
+    };
+
+    // Game.prototype.displayBoard = function(message, data) {
+    //     console.log("displayBoard - index.js");
+    //     // $('.menu').css('display', 'none');
+    //     // $('.gameBoard').css('display', 'block');
+    //     // $('#userHello').html(message);
+    //     $("#heading").html(data.room);
+    //     this.createGameBoard({ boardSize: data.boardSize, color: data.color });
+    // };
+
+    /**
+     * Update game board UI
+     */
+    // Game.prototype.updateBoard = function(type, row, col, tile) {
+    //     console.log("updateBoard - index.js");
+    //     // this.moves++;
+    // };
+
+    Game.prototype.getRoomId = function() {
+        console.log("getRoomId - index.js");
+        return this.roomId;
+    };
+
+    Game.prototype.getBoardSize = function() {
+        return this.boardSize;
+    };
+
+    /**
+     * Send an update to the opponent to update their UI.
+     */
+    // Game.prototype.playTurn = function(tile) {
+    //     console.log("playTurn - index.js");
+    //     var clickedTile = $(tile).attr("id");
+    //     var turnObj = {
+    //         tile: clickedTile,
+    //         room: this.getRoomId()
+    //     };
+    //     // Emit an event to update other player that you've played your turn.
+    //     socket.emit("playTurn", turnObj);
+    // };
+
+    /**
+     * Announce the winner if the current client has won.
+     * Broadcast this on the room to let the opponent know.
+     */
+    Game.prototype.announceWinner = function() {
+        console.log("announceWinner - index.js");
+        // var message = player.getPlayerName() + " wins!";
+        // socket.emit("gameEnded", { room: this.getRoomId(), message: message });
+        // alert(message);
+        // location.reload();
+    };
+
+    /**
+     * End the game if the other player won.
+     */
+    Game.prototype.endGame = function(message) {
+        console.log("endGame - index.js");
+        alert(message);
+        location.reload();
+    };
+
+    /**
+     * Create a new game. Emit newGame event.
+     */
+    $("#new").on("click", function() {
+        console.log("#new on click - index.js");
+        var name = $("#player-name-new").val();
+        var dim = $('input[name="board-size"]:checked').val();
+        var color = $('input[name="stone-color"]:checked').val();
+        if (!name) {
+            alert("Please enter your name.");
+            return;
+        }
+        socket.emit("createGame", { name: name, boardSize: dim, color: color });
+        console.log("createGame emitted by #new on click");
+        player = new Player(name, color);
     });
 
-    socket.on('joinGame', function(data){
-        console.log("joinGame called");
-        var room = io.nsps['/'].adapter.rooms[data.room];
-        if( room && room.length == 1){
-            socket.join(data.room);
-            socket.broadcast.to(data.room).emit('player1', {});
-            socket.emit('player2', {name: data.name, room: data.room });
+    /**
+     *  Join an existing game on the entered roomId. Emit the joinGame event.
+     */
+    $("#join").on("click", function() {
+        console.log("#join on click - index.js");
+        var name = $("#player-name-join").val();
+        var gameId = $("#game-id").val();
+        if (!name || !gameId) {
+            console.log("there was a problem");
+            alert("Please enter your name and game ID.");
+            return;
         }
-        else {
-            socket.emit('err', {message: 'Sorry, The room is full!'});
-        }
+        socket.emit("joinGame", { name: name, room: gameId });
+        console.log("joinGame emitted by #join on click");
+        player = new Player(name, P2);
     });
 
-    socket.on('playTurn', function(data){
-        console.log("playTurn called");
-        socket.broadcast.to(data.room).emit('turnPlayed', {
-            node: data.node,
+    /**
+     * New Game created by current client.
+     * Update the UI and create new Game var.
+     */
+    socket.on("newGame", function(data) {
+        console.log("newGame - index.js");
+        var message = "Hello, " + data.name + ". Please ask your friend to enter Game ID: " + data.room + ". Waiting for player 2...";
+
+        $("#heading").html(data.room);
+        // Create game for player 1
+        game = new Game(data.room, data.boardSize);
+        game.createGameBoard({
+            name: data.name,
+            boardSize: data.boardSize,
+            color: data.color,
             room: data.room
         });
     });
 
-    socket.on('gameEnded', function(data){
-        console.log("gameEnded called");
-        socket.broadcast.to(data.room).emit('gameEnd', data);
+
+    /**
+     * This event is received when opponent connects to the room.
+     */
+    socket.on("player1", function(data) {
+        console.log("player1 - index.js");
+        $("#heading").html("room: " + data.room + ", player1: " + player.getPlayerName() + ", player2: " + data.player2);
+        var color = "white";
+        if (player.getPlayerColor() === "white") {
+            color = "black";
+        }
+        socket.emit("broadcast", {
+            room: data.room,
+            player1: player.getPlayerName(),
+            boardSize: game.getBoardSize(),
+            color: color
+        });
     });
 
-    socket.on('disconnect', function(){
-        // console.log('user disconnected');
+
+    socket.on("player2", function(data) {
+        console.log("player2 - index.js");
+        var message = "Hello, " + data.player2Name;
+
+        //Create game for player 2
+        game = new Game(data.room, data.boardSize);
+        game.createGameBoard(data);
+        $("#heading").html("room: " + data.room + ", player1: " + data.player1 + ", player2: " + player.getPlayerName());
     });
-});
+
+    socket.on("getMove", function(data) {
+        console.log("getMove");
+        $("#"+data.id).removeClass("empty").addClass(data.color);
+    });
+
+    /**
+     * Opponent played his turn. Update UI.
+     * Allow the current player to play now.
+     */
+    // socket.on("turnPlayed", function(data) {
+    //     console.log("turnPlayed - index.js");
+    //     // var opponentType = player.getPlayerType() == P1 ? P2 : P1;
+    //     // game.updateBoard(opponentType, row, col, data.tile);
+    //     player.setCurrentTurn(true);
+    // });
+
+    /**
+     * If the other player wins or game is tied, this event is received.
+     * Notify the user about either scenario and end the game.
+     */
+    socket.on("gameEnd", function(data) {
+        console.log("gameEnd - index.js");
+        game.endGame(data.message);
+        socket.leave(data.room);
+    });
+
+    /**
+     * End the game on any err event
+     */
+    socket.on("err", function(data) {
+        console.log("err - index.js");
+        // game.endGame(data.message);
+    });
 
 
-// from socket.io documentation
-http.listen(3000, function(){
-    console.log('listening on *:3000');
-});
+
+
+
+    socket.on("test", function(data) {
+        console.log(JSON.stringify(data, null, 4));
+        console.log("WHAT UP TEST WORKED " + data.name);
+    });
+})();
