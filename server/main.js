@@ -19,7 +19,7 @@ let rooms = 0;
 io.on("connection", function(socket) {
     // console.log('a user connected');
 
-    console.log(new Board(9));
+    // console.log(new Board(9));
 
     socket.on("createGame", function(data) {
         // socket.emit("test", { name: data.name });

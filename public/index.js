@@ -115,7 +115,8 @@
             // x
             for (var j = 0; j < dim; j++) {
                 // y
-                board.append('<circle id="' + (id++) + '" class="empty" cx="' + (start + gap * j) + '" cy="' + (start + gap * i) + '" r="' + radius + '"/>');
+                var spaceId = String.fromCharCode(parseFloat(asciiA+j)) + parseFloat(dim-i);
+                board.append('<circle id="' + (spaceId) + '" class="empty" cx="' + (start + gap * j) + '" cy="' + (start + gap * i) + '" r="' + radius + '"/>');
             }
         }
 
