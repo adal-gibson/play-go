@@ -34,5 +34,5 @@ method.getSpaceByLocation = function(location) {
 
 
 
-// think this should be end of file
+
 module.exports = Board;
