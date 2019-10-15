@@ -21,3 +21,6 @@ method.setColor = function(color) {
 method.toString = function() {
     return (this._location + ": " + this._color);
 };
+
+
+module.exports = Space;
