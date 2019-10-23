@@ -14,6 +14,7 @@ app.use(express.static("public"));
 app.use(express.static("server"));
 
 let rooms = 0;
+var board;
 
 // controls what happens when a user connects
 io.on("connection", function(socket) {
@@ -33,7 +34,8 @@ io.on("connection", function(socket) {
             color: data.color,
             room: room
         });
-        console.log("newGame emitted by on createGame");
+        board = new Board(data.boardSize);
+        // console.log("newGame emitted by on createGame");
     });
 
     socket.on("joinGame", function(data) {
