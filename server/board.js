@@ -10,8 +10,8 @@ function Board(size) {
     this._size = size;
     this._spaces = [];
 
-    for(var letter = asciiA; letter < asciiA + size; letter++) {
-        var charLetter = String.fromCharCode(letter);
+    for(var numLetter = 0; numLetter < size; numLetter++) {
+        var charLetter = String.fromCharCode(asciiA + numLetter);
         this._spaces[charLetter] = [];
         for(var num = 1; num <= size; num++) {
             this._spaces[charLetter][num] = new Space(charLetter+num);
