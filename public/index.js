@@ -16,7 +16,7 @@
     var Player = function(name, color) {
         this.name = name;
         this.color = color;
-        this.currentTurn = true;
+        // this.currentTurn = true;
         this.movesPlayed = 0;
     };
 
@@ -31,19 +31,6 @@
     Player.prototype.getMovesPlayed = function() {
         console.log("getMovesPlayed - index.js");
         return this.movesPlayed;
-    };
-
-    /**
-     * Set the currentTurn for player to turn and update UI to reflect the same.
-     */
-    Player.prototype.setCurrentTurn = function(turn) {
-        console.log("setCurrentTurn - index.js");
-        this.currentTurn = turn;
-        if (turn) {
-            $("#turn").text("Your turn.");
-        } else {
-            $("#turn").text("Waiting for Opponent");
-        }
     };
 
     Player.prototype.getPlayerName = function() {
@@ -81,6 +68,7 @@
         this.board = [];
         this.moves = 0;
         this.boardSize = boardSize;
+        this.turn = "black";
     };
 
     /**
@@ -89,7 +77,7 @@
     Game.prototype.createGameBoard = function(data) {
         console.log("createGameBoard called");
 
-        console.log(JSON.stringify(data, null, 4));
+        // console.log(JSON.stringify(data, null, 4));
 
         var color = data.color;
         var dim = data.boardSize; // the dimensions of the board
@@ -121,33 +109,19 @@
         }
 
         $(document).on("click", ".empty", function() {
-            console.log("clicked with color " + color);
-            $(this).removeClass("empty").addClass(color);
-            var id = $(this).attr('id');
-            socket.emit("broadcastTurn", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
-            // return false; // was supposed to help but didn't
+            if (game.turn == color) {
+                console.log("clicked with color " + color);
+                $(this).removeClass("empty").addClass(color);
+                var id = $(this).attr('id');
+                socket.emit("broadcastTurn", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
+            } else {
+                console.log("FALSE");
+            }
         });
 
         $("#board").html(board);
         $("body").html($("body").html()); // workaround for appending svg
     };
-
-    // Game.prototype.displayBoard = function(message, data) {
-    //     console.log("displayBoard - index.js");
-    //     // $('.menu').css('display', 'none');
-    //     // $('.gameBoard').css('display', 'block');
-    //     // $('#userHello').html(message);
-    //     $("#heading").html(data.room);
-    //     this.createGameBoard({ boardSize: data.boardSize, color: data.color });
-    // };
-
-    /**
-     * Update game board UI
-     */
-    // Game.prototype.updateBoard = function(type, row, col, tile) {
-    //     console.log("updateBoard - index.js");
-    //     // this.moves++;
-    // };
 
     Game.prototype.getRoomId = function() {
         console.log("getRoomId - index.js");
@@ -158,19 +132,13 @@
         return this.boardSize;
     };
 
-    /**
-     * Send an update to the opponent to update their UI.
-     */
-    // Game.prototype.playTurn = function(tile) {
-    //     console.log("playTurn - index.js");
-    //     var clickedTile = $(tile).attr("id");
-    //     var turnObj = {
-    //         tile: clickedTile,
-    //         room: this.getRoomId()
-    //     };
-    //     // Emit an event to update other player that you've played your turn.
-    //     socket.emit("playTurn", turnObj);
-    // };
+    Game.prototype.setTurn = function(color) {
+        if (color === "white") {
+            this.turn = "black";
+        } else {
+            this.turn = "white";
+        }
+    }
 
     /**
      * Announce the winner if the current client has won.
@@ -268,7 +236,7 @@
 
     socket.on("player2", function(data) {
         console.log("player2 - index.js");
-        var message = "Hello, " + data.player2Name;
+        // var message = "Hello, " + data.player2Name;
 
         //Create game for player 2
         game = new Game(data.room, data.boardSize);
@@ -281,16 +249,11 @@
         $("#"+data.id).removeClass("empty").addClass(data.color);
     });
 
-    /**
-     * Opponent played his turn. Update UI.
-     * Allow the current player to play now.
-     */
-    // socket.on("turnPlayed", function(data) {
-    //     console.log("turnPlayed - index.js");
-    //     // var opponentType = player.getPlayerType() == P1 ? P2 : P1;
-    //     // game.updateBoard(opponentType, row, col, data.tile);
-    //     player.setCurrentTurn(true);
-    // });
+
+    socket.on("turnPlayed", function(data) {
+        console.log("turnPlayed - index.js");
+        game.setTurn();
+    });
 
     /**
      * If the other player wins or game is tied, this event is received.
@@ -310,12 +273,4 @@
         // game.endGame(data.message);
     });
 
-
-
-
-
-    socket.on("test", function(data) {
-        console.log(JSON.stringify(data, null, 4));
-        console.log("WHAT UP TEST WORKED " + data.name);
-    });
 })();

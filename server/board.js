@@ -27,10 +27,14 @@ method.getSpaces = function() {
     return this._spaces;
 };
 
-
 method.getSpaceByLocation = function(location) {
     return this._spaces[location[0]][location[1]];
 };
+
+method.move = function(id, color) {
+    this.getSpaceByLocation(id).setColor(color);
+    // console.log(this._spaces);
+}
 
 
 
