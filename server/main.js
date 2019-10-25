@@ -32,7 +32,11 @@ io.on("connection", function(socket) {
             room: room
         });
         board = new Board(data.boardSize);
+<<<<<<< HEAD
         console.log(board.getSpaces());
+=======
+        // console.log("newGame emitted by on createGame");
+>>>>>>> 77d48c3b567f712f6331f9734b028aa00b96cbdf
     });
 
     socket.on("joinGame", function(data) {
