@@ -32,11 +32,7 @@ io.on("connection", function(socket) {
             room: room
         });
         board = new Board(data.boardSize);
-<<<<<<< HEAD
-        console.log(board.getSpaces());
-=======
-        // console.log("newGame emitted by on createGame");
->>>>>>> 77d48c3b567f712f6331f9734b028aa00b96cbdf
+        // console.log(board.getSpaces());
     });
 
     socket.on("joinGame", function(data) {
@@ -59,8 +55,7 @@ io.on("connection", function(socket) {
 
     socket.on("broadcastTurn", function(data) {
         console.log("broadcast turn, player: " + data.player + ", color: " + data.color + ", id: " + data.id);
-        socket.broadcast.to(data.room).emit("getMove", { id: data.id, color: data.color });
-        socket.broadcast.to(data.room).emit("turnPlayed", { color: data.color });
+        io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
         board.move(data.id, data.color);
     });
 

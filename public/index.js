@@ -17,21 +17,21 @@
         this.name = name;
         this.color = color;
         // this.currentTurn = true;
-        this.movesPlayed = 0;
+        // this.movesPlayed = 0;
     };
 
     /**
      * Set the bit of the move played by the player
      */
-    Player.prototype.updateMovesPlayed = function(tileValue) {
-        console.log("updateMovesPlayed - index.js");
-        this.movesPlayed += tileValue;
-    };
-
-    Player.prototype.getMovesPlayed = function() {
-        console.log("getMovesPlayed - index.js");
-        return this.movesPlayed;
-    };
+    // Player.prototype.updateMovesPlayed = function(tileValue) {
+    //     console.log("updateMovesPlayed - index.js");
+    //     this.movesPlayed += tileValue;
+    // };
+    //
+    // Player.prototype.getMovesPlayed = function() {
+    //     console.log("getMovesPlayed - index.js");
+    //     return this.movesPlayed;
+    // };
 
     Player.prototype.getPlayerName = function() {
         console.log("getPlayerName - index.js");
@@ -46,19 +46,19 @@
     /**
      * Returns currentTurn to determine if it is the player's turn.
      */
-    Player.prototype.getCurrentTurn = function() {
-        console.log("getCurrentTurn index.js");
-        return this.currentTurn;
-    };
+    // Player.prototype.getCurrentTurn = function() {
+    //     console.log("getCurrentTurn index.js");
+    //     return this.currentTurn;
+    // };
 
 
-    Player.prototype.getGame = function() {
-        return this.game;
-    };
-
-    Player.prototype.setGame = function(game) {
-        this.game = game;
-    }
+    // Player.prototype.getGame = function() {
+    //     return this.game;
+    // };
+    //
+    // Player.prototype.setGame = function(game) {
+    //     this.game = game;
+    // }
 
     /**
      * Game class
@@ -109,14 +109,12 @@
         }
 
         $(document).on("click", ".empty", function() {
-            if (game.turn == color) {
+            if (game.turn === color) {
                 console.log("clicked with color " + color);
                 $(this).removeClass("empty").addClass(color);
                 var id = $(this).attr('id');
                 socket.emit("broadcastTurn", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
-            } else {
-                console.log("FALSE");
-            }
+            } 
         });
 
         $("#board").html(board);
@@ -134,8 +132,10 @@
 
     Game.prototype.setTurn = function(color) {
         if (color === "white") {
+            console.log("black's turn");
             this.turn = "black";
         } else {
+            console.log("white's turn");
             this.turn = "white";
         }
     }
@@ -244,15 +244,10 @@
         $("#heading").html("room: " + data.room + ", player1: " + data.player1 + ", player2: " + player.getPlayerName());
     });
 
-    socket.on("getMove", function(data) {
+    socket.on("turnPlayed", function(data) {
         console.log("getMove");
         $("#"+data.id).removeClass("empty").addClass(data.color);
-    });
-
-
-    socket.on("turnPlayed", function(data) {
-        console.log("turnPlayed - index.js");
-        game.setTurn();
+        game.setTurn(data.color);
     });
 
     /**
