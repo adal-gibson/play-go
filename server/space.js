@@ -9,6 +9,14 @@ method.getLocation = function() {
     return this._location;
 };
 
+method.getLetter = function() {
+    return this._location[0];
+};
+
+method.getNumber = function() {
+    return this._location[1];
+};
+
 
 method.getColor = function() {
     return this._color;
