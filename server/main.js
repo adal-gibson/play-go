@@ -35,6 +35,7 @@ io.on("connection", function(socket) {
         // console.log(board.getSpaces());
     });
 
+
     socket.on("joinGame", function(data) {
         console.log("joinGame - main.js");
 
@@ -48,10 +49,12 @@ io.on("connection", function(socket) {
         }
     });
 
+
     socket.on("broadcast", function(data) {
         console.log("broadcast: " + JSON.stringify(data, null, 4));
         socket.broadcast.to(data.room).emit("player2", data);
     });
+
 
     socket.on("broadcastTurn", function(data) {
         console.log("broadcast turn, player: " + data.player + ", color: " + data.color + ", id: " + data.id);
@@ -66,11 +69,13 @@ io.on("connection", function(socket) {
         // console.log("gameEnd emitted by gameEnded")
     });
 
+
     socket.on("disconnect", function() {
         // console.log('user disconnected');
     });
 
 });
+
 
 // from socket.io documentation
 http.listen(3000, function() {

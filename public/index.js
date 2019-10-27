@@ -7,11 +7,9 @@
 
     var socket = io();
     var player, game;
+    var P1;
+    var P2;
 
-    // Types of players
-    // probably going to remove this
-    var P1 = "white";
-    var P2 = "black";
 
     var Player = function(name, color) {
         this.name = name;
@@ -20,45 +18,18 @@
         // this.movesPlayed = 0;
     };
 
-    /**
-     * Set the bit of the move played by the player
-     */
-    // Player.prototype.updateMovesPlayed = function(tileValue) {
-    //     console.log("updateMovesPlayed - index.js");
-    //     this.movesPlayed += tileValue;
-    // };
-    //
-    // Player.prototype.getMovesPlayed = function() {
-    //     console.log("getMovesPlayed - index.js");
-    //     return this.movesPlayed;
-    // };
 
     Player.prototype.getPlayerName = function() {
         console.log("getPlayerName - index.js");
         return this.name;
     };
 
+
     Player.prototype.getPlayerColor = function() {
         console.log("getPlayerColor - index.js");
         return this.color;
     };
 
-    /**
-     * Returns currentTurn to determine if it is the player's turn.
-     */
-    // Player.prototype.getCurrentTurn = function() {
-    //     console.log("getCurrentTurn index.js");
-    //     return this.currentTurn;
-    // };
-
-
-    // Player.prototype.getGame = function() {
-    //     return this.game;
-    // };
-    //
-    // Player.prototype.setGame = function(game) {
-    //     this.game = game;
-    // }
 
     /**
      * Game class
@@ -70,6 +41,7 @@
         this.boardSize = boardSize;
         this.turn = "black";
     };
+
 
     /**
      * Create the Game board by attaching event listeners to the buttons.
@@ -114,21 +86,24 @@
                 $(this).removeClass("empty").addClass(color);
                 var id = $(this).attr('id');
                 socket.emit("broadcastTurn", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
-            } 
+            }
         });
 
         $("#board").html(board);
         $("body").html($("body").html()); // workaround for appending svg
     };
 
+
     Game.prototype.getRoomId = function() {
         console.log("getRoomId - index.js");
         return this.roomId;
     };
 
+
     Game.prototype.getBoardSize = function() {
         return this.boardSize;
     };
+
 
     Game.prototype.setTurn = function(color) {
         if (color === "white") {
@@ -139,6 +114,7 @@
             this.turn = "white";
         }
     }
+
 
     /**
      * Announce the winner if the current client has won.
@@ -152,6 +128,7 @@
         // location.reload();
     };
 
+
     /**
      * End the game if the other player won.
      */
@@ -160,6 +137,7 @@
         alert(message);
         location.reload();
     };
+
 
     /**
      * Create a new game. Emit newGame event.
@@ -178,6 +156,7 @@
         player = new Player(name, color);
     });
 
+
     /**
      *  Join an existing game on the entered roomId. Emit the joinGame event.
      */
@@ -194,6 +173,7 @@
         console.log("joinGame emitted by #join on click");
         player = new Player(name, P2);
     });
+
 
     /**
      * New Game created by current client.
