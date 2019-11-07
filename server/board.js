@@ -8,81 +8,61 @@ var Space = require("./space.js");
 
 
 function Board(size) {
-    this._size = size;
-    this._spaces = [];
-    this._turn = "black";
+    this.size = size;
+    this.spaces = [];
+    this.turn = "black";
 
     for(var numLetter = 0; numLetter < size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
-        this._spaces[charLetter] = [];
+        this.spaces[charLetter] = [];
         for(var num = 1; num <= size; num++) {
-            this._spaces[charLetter][num] = new Space(charLetter+num);
+            this.spaces[charLetter][num] = new Space(charLetter+num);
         }
     }
 }
 
 
 method.getSize = function() {
-    return this._size;
+    return this.size;
 };
 
 
 method.getLastLetter = function() {
-    return String.fromCharCode(asciiA + this._size - 1);
+    return String.fromCharCode(asciiA + this.size - 1);
 };
 
 
 method.getSpaces = function() {
-    return this._spaces;
+    return this.spaces;
 };
 
 
 method.getSpaceByLocation = function(location) {
-    return this._spaces[location[0]][location[1]];
+    return this.spaces[location[0]][location[1]];
 };
 
 
 method.move = function(id, color) {
     this.getSpaceByLocation(id).setColor(color);
-    console.log(this.getLiberties(this.getSpaceByLocation(id)));
+    console.log("liberties: " + this.getLiberties(this.getSpaceByLocation(id)));
+    // console.log("string: " + this.getString(this.getSpaceByLocation(id), []));
 };
 
 
 method.getLiberties = function(space) {
-    var spaceLocation = space.getLocation();
-    var spaceLetter = space.getLetter();
-    var spaceLetterCode = spaceLetter.charCodeAt(0);
-    var spaceNumber = space.getNumber();
     var liberties = [];
-
-    // get space above
-    if (!(spaceNumber === this._size)) {
-        var aboveNumber = parseFloat(spaceNumber)+1;
-        var aboveLocation = spaceLetter + aboveNumber;
-        liberties.push(this.getSpaceByLocation(aboveLocation));
+    if(this.getSpaceAbove(space) != null) {
+        liberties.push(this.getSpaceAbove(space));
     }
-
-    // get space below
-    if (spaceNumber > 1) {
-        var belowNumber = parseFloat(spaceNumber)-1;
-        var belowLocation = spaceLetter + belowNumber;
-        liberties.push(this.getSpaceByLocation(belowLocation));
+    if(this.getSpaceBelow(space) != null) {
+        liberties.push(this.getSpaceBelow(space));
     }
-
-    // get space left
-    if (spaceLetterCode > asciiA) {
-        var leftLetter = String.fromCharCode(spaceLetterCode-1);
-        var leftLocation = leftLetter + spaceNumber;
-        liberties.push(this.getSpaceByLocation(leftLocation));
+    if(this.getSpaceLeft(space) != null) {
+        liberties.push(this.getSpaceLeft(space));
     }
-
-    // get space right
-    if (spaceLetterCode < (parseFloat(asciiA) + parseFloat(this._size) - 1)) {
-        var rightLetter = String.fromCharCode(spaceLetterCode+1);
-        var rightLocation = rightLetter + spaceNumber;
-        liberties.push(this.getSpaceByLocation(rightLocation));
+    if(this.getSpaceRight(space) != null) {
+        liberties.push(this.getSpaceRight(space));
     }
-
     return liberties;
 };
 
@@ -128,10 +108,10 @@ method.getSameColorLiberties = function(space) {
 
 method.getEmptySpaces = function() {
     var emptySpaces = [];
-    for(var numLetter = 0; numLetter < this._size; numLetter++) {
+    for(var numLetter = 0; numLetter < this.size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
         for(var num = 1; num <= size; num++) {
-            var space = this._spaces[charLetter][num];
+            var space = this.spaces[charLetter][num];
             if (space.getColor() === "empty") {
                 emptySpaces.push(space);
             }
@@ -143,10 +123,10 @@ method.getEmptySpaces = function() {
 
 method.getBlackSpaces = function() {
     var blackSpaces = [];
-    for(var numLetter = 0; numLetter < this._size; numLetter++) {
+    for(var numLetter = 0; numLetter < this.size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
         for(var num = 1; num <= size; num++) {
-            var space = this._spaces[charLetter][num];
+            var space = this.spaces[charLetter][num];
             if (space.getColor() === "black") {
                 blackSpaces.push(space);
             }
@@ -158,10 +138,10 @@ method.getBlackSpaces = function() {
 
 method.getWhiteSpaces = function() {
     var whiteSpaces = [];
-    for(var numLetter = 0; numLetter < this._size; numLetter++) {
+    for(var numLetter = 0; numLetter < this.size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
         for(var num = 1; num <= size; num++) {
-            var space = this._spaces[charLetter][num];
+            var space = this.spaces[charLetter][num];
             if (space.getColor() === "white") {
                 whiteSpaces.push(space);
             }
@@ -170,6 +150,115 @@ method.getWhiteSpaces = function() {
     return whiteSpaces;
 };
 
+
+method.getSpaceAbove = function(space) {
+    var spaceLocation = space.getLocation();
+    var spaceLetter = space.getLetter();
+    var spaceLetterCode = spaceLetter.charCodeAt(0);
+    var spaceNumber = space.getNumber();
+
+    if (!(spaceNumber === this.size)) {
+        var aboveNumber = parseFloat(spaceNumber)+1;
+        var aboveLocation = spaceLetter + aboveNumber;
+        return this.getSpaceByLocation(aboveLocation);
+    }
+    return null;
+};
+
+
+method.getSpaceBelow = function(space) {
+    var spaceLocation = space.getLocation();
+    var spaceLetter = space.getLetter();
+    var spaceLetterCode = spaceLetter.charCodeAt(0);
+    var spaceNumber = space.getNumber();
+
+    if (spaceNumber > 1) {
+        var belowNumber = parseFloat(spaceNumber)-1;
+        var belowLocation = spaceLetter + belowNumber;
+        return this.getSpaceByLocation(belowLocation);
+    }
+    return null;
+};
+
+
+method.getSpaceLeft = function(space) {
+    var spaceLocation = space.getLocation();
+    var spaceLetter = space.getLetter();
+    var spaceLetterCode = spaceLetter.charCodeAt(0);
+    var spaceNumber = space.getNumber();
+
+    if (spaceLetterCode > asciiA) {
+        var leftLetter = String.fromCharCode(spaceLetterCode-1);
+        var leftLocation = leftLetter + spaceNumber;
+        return this.getSpaceByLocation(leftLocation);
+    }
+    return null;
+};
+
+
+method.getSpaceRight = function(space) {
+    var spaceLocation = space.getLocation();
+    var spaceLetter = space.getLetter();
+    var spaceLetterCode = spaceLetter.charCodeAt(0);
+    var spaceNumber = space.getNumber();
+
+    if (spaceLetterCode < (parseFloat(asciiA) + parseFloat(this.size) - 1)) {
+        var rightLetter = String.fromCharCode(spaceLetterCode+1);
+        var rightLocation = rightLetter + spaceNumber;
+        return this.getSpaceByLocation(rightLocation);
+    }
+    return null;
+};
+
+
+// returns string of connected stones
+/*
+method.getString = function(space, arr) {
+    var color = space.getColor();
+
+    if(arr.includes(space)) {
+        console.log("went inside if");
+        arr.push(space);
+    }
+    console.log("didn't go into if");
+
+    console.log(arr);
+
+    var above = this.getSpaceAbove(space);
+    if(above != null && above.getColor() === color) {
+        if(arr.includes(above)) {
+            arr.push(above);
+        }
+        this.getString(above, arr);
+    }
+
+    var below = this.getSpaceBelow(space);
+    if(below != null && below.getColor() === color) {
+        if(arr.includes(below)) {
+            arr.push(below);
+        }
+        this.getString(below, arr);
+    }
+
+    var left = this.getSpaceLeft(space);
+    if(left != null && left.getColor() === color) {
+        if(arr.includes(left)) {
+            arr.push(left);
+        }
+        this.getString(left, arr);
+    }
+
+    var right = this.getSpaceRight(space);
+    if(right != null && right.getColor() === color) {
+        if(arr.includes(right)) {
+            arr.push(right);
+        }
+        this.getString(right, arr);
+    }
+
+    return arr;
+};
+*/
 
 
 

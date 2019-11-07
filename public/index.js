@@ -10,7 +10,7 @@
     var P1;
     var P2;
 
-
+    var method = Player.prototype;
     var Player = function(name, color) {
         this.name = name;
         this.color = color;
@@ -19,13 +19,13 @@
     };
 
 
-    Player.prototype.getPlayerName = function() {
+    method.getPlayerName = function() {
         console.log("getPlayerName - index.js");
         return this.name;
     };
 
 
-    Player.prototype.getPlayerColor = function() {
+    method.getPlayerColor = function() {
         console.log("getPlayerColor - index.js");
         return this.color;
     };
@@ -34,6 +34,7 @@
     /**
      * Game class
      */
+    method = Game.prototype;
     var Game = function(roomId, boardSize) {
         this.roomId = roomId;
         this.board = [];
@@ -46,7 +47,7 @@
     /**
      * Create the Game board by attaching event listeners to the buttons.
      */
-    Game.prototype.createGameBoard = function(data) {
+    method.createGameBoard = function(data) {
         console.log("createGameBoard called");
 
         // console.log(JSON.stringify(data, null, 4));
@@ -94,18 +95,18 @@
     };
 
 
-    Game.prototype.getRoomId = function() {
+    method.getRoomId = function() {
         console.log("getRoomId - index.js");
         return this.roomId;
     };
 
 
-    Game.prototype.getBoardSize = function() {
+    method.getBoardSize = function() {
         return this.boardSize;
     };
 
 
-    Game.prototype.setTurn = function(color) {
+    method.setTurn = function(color) {
         if (color === "white") {
             console.log("black's turn");
             this.turn = "black";
@@ -120,7 +121,7 @@
      * Announce the winner if the current client has won.
      * Broadcast this on the room to let the opponent know.
      */
-    Game.prototype.announceWinner = function() {
+    method.announceWinner = function() {
         console.log("announceWinner - index.js");
         // var message = player.getPlayerName() + " wins!";
         // socket.emit("gameEnded", { room: this.getRoomId(), message: message });
@@ -132,7 +133,7 @@
     /**
      * End the game if the other player won.
      */
-    Game.prototype.endGame = function(message) {
+    method.endGame = function(message) {
         console.log("endGame - index.js");
         alert(message);
         location.reload();
