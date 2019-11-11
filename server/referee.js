@@ -6,10 +6,12 @@
 var method = Referee.prototype;
 var Space = require("./space.js");
 var Board = require("./board.js");
+var Game = require("./game.js");
 
-function Referee(board) {
+function Referee(board, game) {
     // current game state
     this.position = board;
+    this.game = game;
 }
 
 /**
@@ -29,11 +31,57 @@ method.getNextMove = function() {
 
 };
 
+method.isCaptured = function(space) {
+    if (this.getString(space).length == 0) {
+        return true;
+    }
+    return false;
+};
+
+method.madeACapture = function(space) {
+    var oppLiberties = this.position.getOpponentLiberties(space);
+    for(var i = 0; i < oppLiberties.length; i++) {
+        if (this.isCaptured(oppLiberties[i])) {
+            return true;
+        }
+    }
+    return false;
+};
+
+method.getEmptyStringLiberties = function(stringArr) {
+    var liberties = this.getStringLiberties(stringArr);
+    var emptyLiberties = [];
+    for(var i = 0; i < liberties.length; i++) {
+        if(liberties[i].getColor() === "empty") {
+            emptyLiberties.push(liberties[i]);
+        }
+    }
+    return emptyLiberties;
+};
+
+method.getStringLiberties = function(stringArr) {
+    var color = stringArr[0].getColor();
+    var liberties = [];
+    for(var i = 0; i < stringArr.length; i++) {
+        var spaceLiberties = this.position.getLiberties(stringArr[i]);
+        for(var j = 0; j < spaceLiberties.length; j++) {
+            if (spaceLiberties[j].getColor() != color) {
+                liberties.push(spaceLiberties[j]);
+            }
+        }
+    }
+    return liberties;
+};
+
 /**
  * gets the string of stones attached to space
  * returns an array of spaces
  * stringArr and visitedArr are initially an empty arrays
  */
+method.getString = function(space) {
+    return this.getString(space, [], []);
+};
+
 method.getString = function(space, stringArr, visitedArr) {
     var color = space.getColor();
 
@@ -50,31 +98,31 @@ method.getString = function(space, stringArr, visitedArr) {
         if(!stringArr.includes(above)) {
             stringArr.push(above);
         }
-        this.getString(above, stringArr);
+        this.getString(above, stringArr, visitedArr);
     }
 
     var below = this.position.getSpaceBelow(space);
-    if(below != null && below.getColor() === color && !visitedArr.includes(above)) {
+    if(below != null && below.getColor() === color && !visitedArr.includes(below)) {
         if(!stringArr.includes(below)) {
             stringArr.push(below);
         }
-        this.getString(below, stringArr);
+        this.getString(below, stringArr, visitedArr);
     }
 
     var left = this.position.getSpaceLeft(space);
-    if(left != null && left.getColor() === color && !visitedArr.includes(above)) {
+    if(left != null && left.getColor() === color && !visitedArr.includes(left)) {
         if(!stringArr.includes(left)) {
             stringArr.push(left);
         }
-        this.getString(left, stringArr);
+        this.getString(left, stringArr, visitedArr);
     }
 
     var right = this.position.getSpaceRight(space);
-    if(right != null && right.getColor() === color && !visitedArr.includes(above)) {
+    if(right != null && right.getColor() === color && !visitedArr.includes(right)) {
         if(!stringArr.includes(right)) {
             stringArr.push(right);
         }
-        this.getString(right, stringArr);
+        this.getString(right, stringArr, visitedArr);
     }
 
     return stringArr;

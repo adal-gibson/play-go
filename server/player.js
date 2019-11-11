@@ -7,4 +7,8 @@ function Player(color, name) {
     this.name = name;
 }
 
+method.toString = function() {
+    return "name: " + this.name + ", color: " + this.color;
+};
+
 module.exports = Player;

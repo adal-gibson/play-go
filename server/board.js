@@ -42,11 +42,11 @@ method.getSpaceByLocation = function(location) {
 };
 
 
-method.move = function(id, color) {
-    this.getSpaceByLocation(id).setColor(color);
-    console.log("liberties: " + this.getLiberties(this.getSpaceByLocation(id)));
-    // console.log("string: " + this.getString(this.getSpaceByLocation(id), []));
-};
+// method.move = function(id, color) {
+//     this.getSpaceByLocation(id).setColor(color);
+//     console.log("liberties: " + this.getLiberties(this.getSpaceByLocation(id)));
+//     // console.log("string: " + this.getString(this.getSpaceByLocation(id), []));
+// };
 
 
 method.getLiberties = function(space) {
@@ -209,6 +209,9 @@ method.getSpaceRight = function(space) {
     }
     return null;
 };
+
+
+
 
 
 // returns string of connected stones

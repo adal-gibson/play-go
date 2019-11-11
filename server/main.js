@@ -9,12 +9,16 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 var Board = require("./board.js");
 var Space = require("./space.js");
+var Game = require("./game.js");
+var Referee = require("./referee.js");
+var Player = require("./player.js");
 
 app.use(express.static("public"));
 app.use(express.static("server"));
 
 let rooms = 0;
-var board;
+var board, game, referee;
+var player1, player2;
 
 // controls what happens when a user connects
 io.on("connection", function(socket) {
@@ -32,7 +36,11 @@ io.on("connection", function(socket) {
             room: room
         });
         board = new Board(data.boardSize);
-        // console.log(board.getSpaces());
+        game = new Game(board, "First Capture");
+        referee = new Referee(board, game);
+        player1 = new Player(data.color, data.name);
+        console.log("player1: " + player1);
+        game.setPlayer1(player1);
     });
 
 
@@ -43,7 +51,8 @@ io.on("connection", function(socket) {
         if (room && room.length == 1) {
             socket.join(data.room);
             socket.broadcast.to(data.room).emit("player1", { room: data.room, player2: data.name });
-            // socket.emit("player2", { player2Name: data.name, room: data.room });
+            player2 = new Player(data.color, data.name);
+            game.setPlayer2(player2);
         } else {
             socket.emit("err", { message: "Sorry, The room is full!" });
         }
@@ -57,21 +66,25 @@ io.on("connection", function(socket) {
 
 
     socket.on("broadcastTurn", function(data) {
-        console.log("broadcast turn, player: " + data.player + ", color: " + data.color + ", id: " + data.id);
+        // use referee to check rules here
+        // should I make the referee in the move method?
+        game.move(data.id, data.color);
+        var string = referee.getString(board.getSpaceByLocation(data.id) ,[], []);
+        console.log("string: " + string);
+        console.log("string liberties: " + referee.getStringLiberties(string));
+        console.log("empty string liberties: " + referee.getEmptyStringLiberties(string));
+
         io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
-        board.move(data.id, data.color);
     });
 
 
     socket.on("gameEnded", function(data) {
-        console.log("gameEnded - main.js");
-        // socket.broadcast.to(data.room).emit("gameEnd", data);
-        // console.log("gameEnd emitted by gameEnded")
+        console.log("gameEnded");
     });
 
 
     socket.on("disconnect", function() {
-        // console.log('user disconnected');
+        // do I need to have something here?
     });
 
 });
