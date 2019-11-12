@@ -68,10 +68,9 @@ method.getEmptyLiberties = function(space) {
 
 method.getOpponentLiberties = function(space) {
     var liberties = this.getLiberties(space);
-    var numLiberties = liberties.length;
     var opponentLiberties = [];
-    for (var i = 0; i < numLiberties; i++) {
-        if (liberties[i].getColor() != space.getColor()) {
+    for (var i = 0; i < liberties.length; i++) {
+        if (liberties[i].getColor() != space.getColor() && liberties[i].getColor() != "empty") {
             opponentLiberties.push(liberties[i]);
         }
     }
@@ -188,10 +187,6 @@ method.getSpaceRight = function(space) {
     return null;
 };
 
-method.getEmptyStringLiberties = function() {
-    return this.getEmptyStringLiberties([]);
-};
-
 method.getEmptyStringLiberties = function(stringArr) {
     var liberties = this.getStringLiberties(stringArr);
     var emptyLiberties = [];
@@ -201,10 +196,6 @@ method.getEmptyStringLiberties = function(stringArr) {
         }
     }
     return emptyLiberties;
-};
-
-method.getStringLiberties = function() {
-    return this.getStringLiberties([]);
 };
 
 method.getStringLiberties = function(stringArr) {
@@ -272,7 +263,10 @@ method.getString = function(space, stringArr, visitedArr) {
 };
 
 method.isCaptured = function(space) {
-    if (this.getString(space, [], []).length == 0) {
+    var str = this.getString(space);
+    console.log("str: " + JSON.stringify(str, null, 4));
+    console.log("empty str liberties: " + JSON.stringify(this.getEmptyStringLiberties(str)));
+    if (this.getEmptyStringLiberties(str).length === 0) {
         return true;
     }
     return false;

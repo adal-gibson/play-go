@@ -17,18 +17,18 @@ method.move = function(id, color, game) {
     console.log("move called");
     var oldState = game.getCurrentState();
     var newState = clone(oldState);
-    console.log(JSON.stringify(oldState, null, 4));
-    console.log(JSON.stringify(newState, null, 4));
     var space = newState.getSpaceByLocation(id)
     space.setColor(color);
     if (newState.isCaptured(space)) {
         // illegal move
+        console.log("illegal move!!");
     } else if (newState.madeACapture(space)){
         // game is won
         console.log("game ended");
         game.addState(newState);
     } else {
         // legal move
+        console.log("that was a legal move!");
         game.addState(newState);
     }
 };
