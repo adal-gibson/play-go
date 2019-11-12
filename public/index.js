@@ -23,12 +23,10 @@
         return this.name;
     };
 
-
     Player.prototype.getPlayerColor = function() {
         console.log("getPlayerColor - index.js");
         return this.color;
     };
-
 
     /**
      * Game class
@@ -92,17 +90,14 @@
         $("body").html($("body").html()); // workaround for appending svg
     };
 
-
     Game.prototype.getRoomId = function() {
         console.log("getRoomId - index.js");
         return this.roomId;
     };
 
-
     Game.prototype.getBoardSize = function() {
         return this.boardSize;
     };
-
 
     Game.prototype.setTurn = function(color) {
         if (color === "white") {
@@ -113,7 +108,6 @@
             this.turn = "white";
         }
     }
-
 
     /**
      * Announce the winner if the current client has won.
@@ -126,7 +120,6 @@
         // alert(message);
         // location.reload();
     };
-
 
     /**
      * End the game if the other player won.

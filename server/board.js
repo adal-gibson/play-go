@@ -37,16 +37,11 @@ method.getSpaces = function() {
 };
 
 
+
+
 method.getSpaceByLocation = function(location) {
     return this.spaces[location[0]][location[1]];
 };
-
-
-// method.move = function(id, color) {
-//     this.getSpaceByLocation(id).setColor(color);
-//     console.log("liberties: " + this.getLiberties(this.getSpaceByLocation(id)));
-//     // console.log("string: " + this.getString(this.getSpaceByLocation(id), []));
-// };
 
 
 method.getLiberties = function(space) {
@@ -210,58 +205,103 @@ method.getSpaceRight = function(space) {
     return null;
 };
 
+method.getEmptyStringLiberties = function() {
+    return this.getEmptyStringLiberties([]);
+};
 
+method.getEmptyStringLiberties = function(stringArr) {
+    var liberties = this.getStringLiberties(stringArr);
+    var emptyLiberties = [];
+    for(var i = 0; i < liberties.length; i++) {
+        if(liberties[i].getColor() === "empty") {
+            emptyLiberties.push(liberties[i]);
+        }
+    }
+    return emptyLiberties;
+};
 
+method.getStringLiberties = function() {
+    return this.getStringLiberties([]);
+};
 
+method.getStringLiberties = function(stringArr) {
+    var color = stringArr[0].getColor();
+    var liberties = [];
+    for(var i = 0; i < stringArr.length; i++) {
+        var spaceLiberties = this.getLiberties(stringArr[i]);
+        for(var j = 0; j < spaceLiberties.length; j++) {
+            if (spaceLiberties[j].getColor() != color) {
+                liberties.push(spaceLiberties[j]);
+            }
+        }
+    }
+    return liberties;
+};
 
-// returns string of connected stones
-/*
-method.getString = function(space, arr) {
+method.getString = function(space, stringArr, visitedArr) {
+    console.log(stringArr);
+    console.log(visitedArr);
     var color = space.getColor();
 
-    if(arr.includes(space)) {
-        console.log("went inside if");
-        arr.push(space);
+    if(!stringArr.includes(space)) {
+        stringArr.push(space);
     }
-    console.log("didn't go into if");
 
-    console.log(arr);
+    if(!visitedArr.includes(space)) {
+        visitedArr.push(space);
+    }
 
     var above = this.getSpaceAbove(space);
-    if(above != null && above.getColor() === color) {
-        if(arr.includes(above)) {
-            arr.push(above);
+    if(above != null && above.getColor() === color && !visitedArr.includes(above)) {
+        if(!stringArr.includes(above)) {
+            stringArr.push(above);
         }
-        this.getString(above, arr);
+        this.getString(above, stringArr, visitedArr);
     }
 
     var below = this.getSpaceBelow(space);
-    if(below != null && below.getColor() === color) {
-        if(arr.includes(below)) {
-            arr.push(below);
+    if(below != null && below.getColor() === color && !visitedArr.includes(below)) {
+        if(!stringArr.includes(below)) {
+            stringArr.push(below);
         }
-        this.getString(below, arr);
+        this.getString(below, stringArr, visitedArr);
     }
 
     var left = this.getSpaceLeft(space);
-    if(left != null && left.getColor() === color) {
-        if(arr.includes(left)) {
-            arr.push(left);
+    if(left != null && left.getColor() === color && !visitedArr.includes(left)) {
+        if(!stringArr.includes(left)) {
+            stringArr.push(left);
         }
-        this.getString(left, arr);
+        this.getString(left, stringArr, visitedArr);
     }
 
     var right = this.getSpaceRight(space);
-    if(right != null && right.getColor() === color) {
-        if(arr.includes(right)) {
-            arr.push(right);
+    if(right != null && right.getColor() === color && !visitedArr.includes(right)) {
+        if(!stringArr.includes(right)) {
+            stringArr.push(right);
         }
-        this.getString(right, arr);
+        this.getString(right, stringArr, visitedArr);
     }
 
-    return arr;
+    return stringArr;
 };
-*/
+
+method.isCaptured = function(space) {
+    if (this.getString(space).length == 0) {
+        return true;
+    }
+    return false;
+};
+
+method.madeACapture = function(space) {
+    var oppLiberties = this.getOpponentLiberties(space);
+    for(var i = 0; i < oppLiberties.length; i++) {
+        if (this.isCaptured(oppLiberties[i])) {
+            return true;
+        }
+    }
+    return false;
+};
 
 
 

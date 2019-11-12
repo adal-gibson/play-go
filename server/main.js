@@ -10,14 +10,14 @@ var io = require("socket.io")(http);
 var Board = require("./board.js");
 var Space = require("./space.js");
 var Game = require("./game.js");
-var Referee = require("./referee.js");
 var Player = require("./player.js");
+var FirstCapture = require("./first-capture.js");
 
 app.use(express.static("public"));
 app.use(express.static("server"));
 
 let rooms = 0;
-var board, game, referee;
+var board, game, variation;
 var player1, player2;
 
 // controls what happens when a user connects
@@ -36,8 +36,8 @@ io.on("connection", function(socket) {
             room: room
         });
         board = new Board(data.boardSize);
-        game = new Game(board, "First Capture");
-        referee = new Referee(board, game);
+        variation = new FirstCapture();
+        game = new Game(board, variation);
         player1 = new Player(data.color, data.name);
         console.log("player1: " + player1);
         game.setPlayer1(player1);
@@ -66,13 +66,11 @@ io.on("connection", function(socket) {
 
 
     socket.on("broadcastTurn", function(data) {
-        // use referee to check rules here
-        // should I make the referee in the move method?
-        game.move(data.id, data.color);
-        var string = referee.getString(board.getSpaceByLocation(data.id) ,[], []);
+        variation.move(data.id, data.color, game);
+        var string = game.getCurrentState().getString(game.getCurrentState().getSpaceByLocation(data.id));
         console.log("string: " + string);
-        console.log("string liberties: " + referee.getStringLiberties(string));
-        console.log("empty string liberties: " + referee.getEmptyStringLiberties(string));
+        console.log("string liberties: " + game.getCurrentState().getStringLiberties(string));
+        console.log("empty string liberties: " + game.getCurrentState().getEmptyStringLiberties(string));
 
         io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
     });
