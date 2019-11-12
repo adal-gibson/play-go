@@ -9,12 +9,16 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 var Board = require("./board.js");
 var Space = require("./space.js");
+var Game = require("./game.js");
+var Player = require("./player.js");
+var FirstCapture = require("./first-capture.js");
 
 app.use(express.static("public"));
 app.use(express.static("server"));
 
 let rooms = 0;
-var board;
+var board, game, variation;
+var player1, player2;
 
 // controls what happens when a user connects
 io.on("connection", function(socket) {
@@ -23,9 +27,6 @@ io.on("connection", function(socket) {
     // console.log(new Board(9));
 
     socket.on("createGame", function(data) {
-        // socket.emit("test", { name: data.name });
-        console.log("createGame - main.js");
-
         var room = "game-" + (++rooms);
         socket.join(room);
         socket.emit("newGame", {
@@ -35,8 +36,15 @@ io.on("connection", function(socket) {
             room: room
         });
         board = new Board(data.boardSize);
-        // console.log("newGame emitted by on createGame");
+        console.log("board in main: " + board.getSpaces());
+        variation = new FirstCapture();
+        game = new Game(board, variation);
+        console.log(JSON.stringify(game, null, 4));
+        player1 = new Player(data.color, data.name);
+        // console.log("player1: " + player1);
+        game.setPlayer1(player1);
     });
+
 
     socket.on("joinGame", function(data) {
         console.log("joinGame - main.js");
@@ -45,34 +53,42 @@ io.on("connection", function(socket) {
         if (room && room.length == 1) {
             socket.join(data.room);
             socket.broadcast.to(data.room).emit("player1", { room: data.room, player2: data.name });
-            // socket.emit("player2", { player2Name: data.name, room: data.room });
+            player2 = new Player(data.color, data.name);
+            game.setPlayer2(player2);
         } else {
             socket.emit("err", { message: "Sorry, The room is full!" });
         }
     });
+
 
     socket.on("broadcast", function(data) {
         console.log("broadcast: " + JSON.stringify(data, null, 4));
         socket.broadcast.to(data.room).emit("player2", data);
     });
 
+
     socket.on("broadcastTurn", function(data) {
-        console.log("broadcast turn, player: " + data.player + ", color: " + data.color + ", id: " + data.id);
-        socket.broadcast.to(data.room).emit("getMove", { id: data.id, color: data.color })
+        variation.move(data.id, data.color, game);
+        var string = game.getCurrentState().getString(game.getCurrentState().getSpaceByLocation(data.id), [], []);
+        // console.log("string: " + string);
+        // console.log("string liberties: " + game.getCurrentState().getStringLiberties(string));
+        // console.log("empty string liberties: " + game.getCurrentState().getEmptyStringLiberties(string));
+
+        io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
     });
 
 
     socket.on("gameEnded", function(data) {
-        console.log("gameEnded - main.js");
-        // socket.broadcast.to(data.room).emit("gameEnd", data);
-        // console.log("gameEnd emitted by gameEnded")
+        console.log("gameEnded");
     });
 
+
     socket.on("disconnect", function() {
-        // console.log('user disconnected');
+        // do I need to have something here?
     });
 
 });
+
 
 // from socket.io documentation
 http.listen(3000, function() {
