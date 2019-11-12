@@ -36,8 +36,10 @@ io.on("connection", function(socket) {
             room: room
         });
         board = new Board(data.boardSize);
+        console.log("board in main: " + board.getSpaces());
         variation = new FirstCapture();
         game = new Game(board, variation);
+        console.log(JSON.stringify(game, null, 4));
         player1 = new Player(data.color, data.name);
         // console.log("player1: " + player1);
         game.setPlayer1(player1);

@@ -1,12 +1,8 @@
 var method = Space.prototype;
 
-function Space(location) {
-    this.location = location; // location is a string (B1, A6, etc.)
-    this.color = "empty";
-}
-
 function Space(location, color) {
-    this.location = location;
+    color = color || "empty";
+    this.location = location; // location is a string (B1, A6, etc.)
     this.color = color;
 }
 

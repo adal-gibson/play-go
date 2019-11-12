@@ -5,7 +5,8 @@ var Player = require("./player.js");
 var FirstCapture = require("./first-capture.js");
 
 function Game(startingState, variation) {
-    this.states = [startingState];
+    this.states = [];
+    this.states.push(startingState);
     this.variation = variation;
     this.player1 = null;
     this.player2 = null;

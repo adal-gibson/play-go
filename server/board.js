@@ -6,10 +6,11 @@ var method = Board.prototype;
 var asciiA = 65;
 var Space = require("./space.js");
 
-function Board(size) {
+function Board(size, turn) {
+    turn = turn || "black";
     this.size = size;
     this.spaces = [];
-    this.turn = "black";
+    this.turn = turn;
 
     for(var numLetter = 0; numLetter < size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
@@ -221,6 +222,8 @@ method.getStringLiberties = function(stringArr) {
 };
 
 method.getString = function(space, stringArr, visitedArr) {
+    stringArr = stringArr || [];
+    visitedArr = visitedArr || [];
     // console.log(stringArr);
     // console.log(visitedArr);
     var color = space.getColor();
