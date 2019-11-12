@@ -39,7 +39,7 @@ io.on("connection", function(socket) {
         variation = new FirstCapture();
         game = new Game(board, variation);
         player1 = new Player(data.color, data.name);
-        console.log("player1: " + player1);
+        // console.log("player1: " + player1);
         game.setPlayer1(player1);
     });
 
@@ -67,7 +67,7 @@ io.on("connection", function(socket) {
 
     socket.on("broadcastTurn", function(data) {
         variation.move(data.id, data.color, game);
-        var string = game.getCurrentState().getString(game.getCurrentState().getSpaceByLocation(data.id));
+        var string = game.getCurrentState().getString(game.getCurrentState().getSpaceByLocation(data.id), [], []);
         console.log("string: " + string);
         console.log("string liberties: " + game.getCurrentState().getStringLiberties(string));
         console.log("empty string liberties: " + game.getCurrentState().getEmptyStringLiberties(string));

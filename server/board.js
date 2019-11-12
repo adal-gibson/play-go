@@ -6,7 +6,6 @@ var method = Board.prototype;
 var asciiA = 65;
 var Space = require("./space.js");
 
-
 function Board(size) {
     this.size = size;
     this.spaces = [];
@@ -21,28 +20,21 @@ function Board(size) {
     }
 }
 
-
 method.getSize = function() {
     return this.size;
 };
-
 
 method.getLastLetter = function() {
     return String.fromCharCode(asciiA + this.size - 1);
 };
 
-
 method.getSpaces = function() {
     return this.spaces;
 };
 
-
-
-
 method.getSpaceByLocation = function(location) {
     return this.spaces[location[0]][location[1]];
 };
-
 
 method.getLiberties = function(space) {
     var liberties = [];
@@ -61,7 +53,6 @@ method.getLiberties = function(space) {
     return liberties;
 };
 
-
 method.getEmptyLiberties = function(space) {
     var liberties = this.getLiberties(space);
     var numLiberties = liberties.length;
@@ -73,7 +64,6 @@ method.getEmptyLiberties = function(space) {
     }
     return emptyLiberties;
 };
-
 
 method.getOpponentLiberties = function(space) {
     var liberties = this.getLiberties(space);
@@ -87,7 +77,6 @@ method.getOpponentLiberties = function(space) {
     return opponentLiberties;
 };
 
-
 method.getSameColorLiberties = function(space) {
     var liberties = this.getLiberties(space);
     var numLiberties = liberties.length;
@@ -99,7 +88,6 @@ method.getSameColorLiberties = function(space) {
     }
     return ownLiberties;
 };
-
 
 method.getEmptySpaces = function() {
     var emptySpaces = [];
@@ -115,7 +103,6 @@ method.getEmptySpaces = function() {
     return emptySpaces;
 };
 
-
 method.getBlackSpaces = function() {
     var blackSpaces = [];
     for(var numLetter = 0; numLetter < this.size; numLetter++) {
@@ -129,7 +116,6 @@ method.getBlackSpaces = function() {
     }
     return blackSpaces;
 };
-
 
 method.getWhiteSpaces = function() {
     var whiteSpaces = [];
@@ -145,7 +131,6 @@ method.getWhiteSpaces = function() {
     return whiteSpaces;
 };
 
-
 method.getSpaceAbove = function(space) {
     var spaceLocation = space.getLocation();
     var spaceLetter = space.getLetter();
@@ -159,7 +144,6 @@ method.getSpaceAbove = function(space) {
     }
     return null;
 };
-
 
 method.getSpaceBelow = function(space) {
     var spaceLocation = space.getLocation();
@@ -175,7 +159,6 @@ method.getSpaceBelow = function(space) {
     return null;
 };
 
-
 method.getSpaceLeft = function(space) {
     var spaceLocation = space.getLocation();
     var spaceLetter = space.getLetter();
@@ -189,7 +172,6 @@ method.getSpaceLeft = function(space) {
     }
     return null;
 };
-
 
 method.getSpaceRight = function(space) {
     var spaceLocation = space.getLocation();
@@ -239,8 +221,8 @@ method.getStringLiberties = function(stringArr) {
 };
 
 method.getString = function(space, stringArr, visitedArr) {
-    console.log(stringArr);
-    console.log(visitedArr);
+    // console.log(stringArr);
+    // console.log(visitedArr);
     var color = space.getColor();
 
     if(!stringArr.includes(space)) {
@@ -287,7 +269,7 @@ method.getString = function(space, stringArr, visitedArr) {
 };
 
 method.isCaptured = function(space) {
-    if (this.getString(space).length == 0) {
+    if (this.getString(space, [], []).length == 0) {
         return true;
     }
     return false;
