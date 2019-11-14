@@ -1,3 +1,166 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    #content {
+        width: 100%;
+    }
+
+    #menu {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 200%;
+    }
+
+    h2 {
+        font-size: 150%;
+    }
+
+    label {
+        font-size: 100%;
+    }
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    #content {
+        width: 100%;
+    }
+
+    #menu {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 205%;
+    }
+
+    h2 {
+        font-size: 160%;
+    }
+
+    label {
+        font-size: 105%;
+    }
+}
+
+/* Small devices, mid point */
+@media only screen and (min-width: 700px) {
+    #content {
+        width: 90%;
+    }
+
+    #menu {
+        width: 80%;
+    }
+
+    h1 {
+        font-size: 210%;
+    }
+
+    h2 {
+        font-size: 160%;
+    }
+
+    label {
+        font-size: 110%;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    #content {
+        width: 85%;
+    }
+
+    #menu {
+        width: 70%;
+    }
+
+    h1 {
+        font-size: 215%;
+    }
+
+    h2 {
+        font-size: 165%;
+    }
+
+    label {
+        font-size: 115%;
+    }
+}
+
+@media only screen and (min-width: 850px) {
+    #content {
+        width: 85%;
+    }
+
+    #menu {
+        width: 65%;
+    }
+
+    h1 {
+        font-size: 220%;
+    }
+
+    h2 {
+        font-size: 170%;
+    }
+
+    label {
+        font-size: 120%;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    #content {
+        width: 80%;
+    }
+
+    #menu {
+        width: 60%;
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 225%;
+    }
+
+    h2 {
+        font-size: 175%;
+    }
+
+    label {
+        font-size: 125%;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    #content {
+        width: 80%;
+    }
+    #menu {
+        width: 50%;
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 230%;
+    }
+
+    h2 {
+        font-size: 180%;
+    }
+
+    label {
+        font-size: 130%;
+    }
+}
+
+
 body {
     font-family: 'Roboto Mono', monospace;
     /* font-family: 'Roboto Slab', serif;
@@ -9,28 +172,31 @@ h1, h2 {
 }
 
 #content {
-    width: 60%;
     margin-left: auto;
     margin-right: auto;
-    border-style: solid;
-    border-color: red;
 }
 
 #menu {
-    float: left;
-    width: 30%;
-    border-style: solid;
-    border-color: green;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #new-game {
     border-style: solid;
     border-color: blue;
-    margin: 2%;
+    margin: 5%;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    padding: 2%;
 }
 
 #join-game {
     border-style: solid;
     border-color: purple;
-    margin: 2%;
+    margin: 5%;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    padding: 2%;
 }
