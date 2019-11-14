@@ -1,5 +1,5 @@
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 315px) {
+
     #content {
         width: 100%;
     }
@@ -17,42 +17,52 @@
     }
 
     label {
-        font-size: 100%;
+        font-size: 88%;
     }
 
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 315px) {
+
     #content {
         width: 100%;
     }
 
     #menu {
-        width: 90%;
+        width: 100%;
     }
 
     h1 {
-        font-size: 205%;
+        font-size: 200%;
     }
 
     h2 {
-        font-size: 160%;
+        font-size: 150%;
     }
 
     label {
-        font-size: 105%;
+        font-size: 98%;
     }
+
 }
 
-/* Small devices, mid point */
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 360px) {
+
+    label {
+        font-size: 115%;
+    }
+
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 400px) {
+
     #content {
-        width: 90%;
+        width: 100%;
     }
 
     #menu {
-        width: 80%;
+        width: 97%;
     }
 
     h1 {
@@ -60,22 +70,23 @@
     }
 
     h2 {
-        font-size: 160%;
+        font-size: 155%;
     }
 
     label {
-        font-size: 110%;
+        font-size: 120%;
     }
+
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 500px) {
+
     #content {
-        width: 85%;
+        width: 97%;
     }
 
     #menu {
-        width: 70%;
+        width: 95%;
     }
 
     h1 {
@@ -83,21 +94,23 @@
     }
 
     h2 {
-        font-size: 165%;
-    }
-
-    label {
-        font-size: 115%;
+        font-size: 160%;
     }
 }
 
-@media only screen and (min-width: 850px) {
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
     #content {
-        width: 85%;
+        width: 90%;
     }
+}
+
+/* Small devices, mid point */
+@media only screen and (min-width: 700px) {
 
     #menu {
-        width: 65%;
+        width: 90%;
     }
 
     h1 {
@@ -105,31 +118,7 @@
     }
 
     h2 {
-        font-size: 170%;
-    }
-
-    label {
-        font-size: 120%;
-    }
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-    #content {
-        width: 80%;
-    }
-
-    #menu {
-        width: 60%;
-        max-width: 800px;
-    }
-
-    h1 {
-        font-size: 225%;
-    }
-
-    h2 {
-        font-size: 175%;
+        font-size: 165%;
     }
 
     label {
@@ -137,14 +126,18 @@
     }
 }
 
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
     #content {
         width: 80%;
     }
+}
+
+@media only screen and (min-width: 850px) {
+
     #menu {
-        width: 50%;
-        max-width: 800px;
+        width: 80%;
     }
 
     h1 {
@@ -152,7 +145,36 @@
     }
 
     h2 {
-        font-size: 180%;
+        font-size: 170%;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+    #content {
+        width: 70%;
+    }
+
+    h1 {
+        font-size: 235%;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+    #menu {
+        width: 70%;
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 245%;
+    }
+
+    h2 {
+        font-size: 175%;
     }
 
     label {
@@ -160,6 +182,9 @@
     }
 }
 
+#board-container {
+    max-width: 85vh;
+}
 
 body {
     font-family: 'Roboto Mono', monospace;
@@ -169,6 +194,11 @@ body {
 
 h1, h2 {
     text-align: center;
+}
+
+input[type="text"], textarea {
+    max-width: 85%;
+    display: block;
 }
 
 #content {
