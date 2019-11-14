@@ -2,7 +2,7 @@ var method = Game.prototype;
 var Space = require("./space.js");
 var Board = require("./board.js");
 var Player = require("./player.js");
-var FirstCapture = require("./first-capture.js");
+var AtariGo = require("./atari-go.js");
 
 function Game(startingState, variation) {
     this.states = [];
@@ -38,6 +38,13 @@ method.setPlayer2 = function(player2) {
 };
 
 method.getPlayer2 = function() {
+    return this.player2;
+};
+
+method.getPlayerByColor = function(color) {
+    if (this.player1.getColor() === color) {
+        return this.player1;
+    }
     return this.player2;
 };
 
