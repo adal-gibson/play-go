@@ -3,6 +3,7 @@ var Space = require("./space.js");
 var Board = require("./board.js");
 var Player = require("./player.js");
 var AtariGo = require("./atari-go.js");
+var NoGo = require("./no-go.js");
 
 function Game(startingState, variation) {
     this.states = [];

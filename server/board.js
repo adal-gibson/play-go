@@ -93,7 +93,7 @@ method.getEmptySpaces = function() {
     var emptySpaces = [];
     for(var numLetter = 0; numLetter < this.size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
-        for(var num = 1; num <= size; num++) {
+        for(var num = 1; num <= this.size; num++) {
             var space = this.spaces[charLetter][num];
             if (space.getColor() === "empty") {
                 emptySpaces.push(space);
@@ -107,7 +107,7 @@ method.getBlackSpaces = function() {
     var blackSpaces = [];
     for(var numLetter = 0; numLetter < this.size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
-        for(var num = 1; num <= size; num++) {
+        for(var num = 1; num <= this.size; num++) {
             var space = this.spaces[charLetter][num];
             if (space.getColor() === "black") {
                 blackSpaces.push(space);
@@ -121,7 +121,7 @@ method.getWhiteSpaces = function() {
     var whiteSpaces = [];
     for(var numLetter = 0; numLetter < this.size; numLetter++) {
         var charLetter = String.fromCharCode(asciiA + numLetter);
-        for(var num = 1; num <= size; num++) {
+        for(var num = 1; num <= this.size; num++) {
             var space = this.spaces[charLetter][num];
             if (space.getColor() === "white") {
                 whiteSpaces.push(space);

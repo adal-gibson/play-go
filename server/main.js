@@ -12,6 +12,7 @@ var Space = require("./space.js");
 var Game = require("./game.js");
 var Player = require("./player.js");
 var AtariGo = require("./atari-go.js");
+var NoGo = require("./no-go.js");
 
 app.use(express.static("public"));
 app.use(express.static("server"));
@@ -22,9 +23,7 @@ var player1, player2;
 
 // controls what happens when a user connects
 io.on("connection", function(socket) {
-    // console.log('a user connected');
-
-    // console.log(new Board(9));
+    io.emit("updateRoomList", { color: data.color, variation: data.variation, boardSize: data.boardSize, rooms: socket.rooms }, Object.keys(socket.rooms) );
 
     socket.on("createGame", function(data) {
         var room = "game-" + (++rooms);
@@ -33,11 +32,17 @@ io.on("connection", function(socket) {
             name: data.name,
             boardSize: data.boardSize,
             color: data.color,
-            room: room
+            room: room,
+            variation: data.variation
         });
+        io.emit("updateRoomList", { color: data.color, variation: data.variation, boardSize: data.boardSize, rooms: socket.rooms }, Object.keys(socket.rooms) );
         board = new Board(data.boardSize);
         console.log("board in main: " + board.getSpaces());
         variation = new AtariGo();
+        if (data.variation === "NoGo") {
+            variation = new NoGo();
+        }
+
         game = new Game(board, variation);
         console.log(JSON.stringify(game, null, 4));
         player1 = new Player(data.color, data.name);
@@ -53,6 +58,7 @@ io.on("connection", function(socket) {
         if (room && room.length == 1) {
             socket.join(data.room);
             socket.broadcast.to(data.room).emit("player1", { room: data.room, player2: data.name });
+            io.emit("updateRoomList", { color: data.color, variation: data.variation, boardSize: data.boardSize }, Object.keys(socket.rooms) );
             player2 = new Player(data.color, data.name);
             game.setPlayer2(player2);
         } else {
@@ -77,17 +83,17 @@ io.on("connection", function(socket) {
             // game is won
             io.in(data.room).emit("gameOver", { color: data.color, player: data.player, room: data.room });
             console.log("game is over!");
-            socket.leave(data.room);
+
+            // from https://github.com/socketio/socket.io/issues/3042
+            io.of('/').in(data.room).clients((error, socketIds) => {
+                if (error) throw error;
+                socketIds.forEach(socketId => io.sockets.sockets[socketId].leave(data.room));
+            });
         } else {
             // illegal move, try again, sends message back to self
-            //socket.emit("illegalMove");
+            socket.emit("illegalMove", { id: data.id, color: data.color });
             console.log("illegal move!!");
         }
-    });
-
-
-    socket.on("gameEnded", function(data) {
-        console.log("gameEnded");
     });
 
 
