@@ -82,7 +82,7 @@
                 console.log("clicked with color " + color);
                 $(this).removeClass("empty").addClass(color);
                 var id = $(this).attr('id');
-                socket.emit("broadcastTurn", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
+                socket.emit("checkMove", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
             }
         });
 
@@ -221,7 +221,6 @@
     });
 
     socket.on("turnPlayed", function(data) {
-        console.log("getMove");
         $("#"+data.id).removeClass("empty").addClass(data.color);
         game.setTurn(data.color);
     });
@@ -230,10 +229,14 @@
      * If the other player wins or game is tied, this event is received.
      * Notify the user about either scenario and end the game.
      */
-    socket.on("gameEnd", function(data) {
-        console.log("gameEnd - index.js");
-        game.endGame(data.message);
-        socket.leave(data.room);
+    socket.on("gameOver", function(data) {
+        // console.log("gameEnd - index.js");
+        // game.endGame(data.message);
+        // socket.leave(data.room);
+        alert("Game Over! " + data.player + " won!");
+        $("#board").hide();
+        $("#menu").show();
+        $("#heading").html("Play Go");
     });
 
     /**

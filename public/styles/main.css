@@ -183,7 +183,10 @@
 }
 
 #board-container {
+    width: 100%;
     max-width: 85vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 body {
@@ -194,6 +197,7 @@ body {
 
 h1, h2 {
     text-align: center;
+
 }
 
 input[type="text"], textarea {

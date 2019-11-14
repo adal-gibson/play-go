@@ -1,11 +1,11 @@
-var method = FirstCapture.prototype;
+var method = AtariGo.prototype;
 var clone = require('clone');
 var Board = require("./board.js");
 var Space = require("./space.js");
 var Game = require("./game.js");
 var Player = require("./player.js");
 
-function FirstCapture() {
+function AtariGo() {
 
 }
 
@@ -21,15 +21,18 @@ method.move = function(id, color, game) {
     space.setColor(color);
     if (newState.isCaptured(space)) {
         // illegal move
-        console.log("illegal move!!");
+        // console.log("illegal move!!");
+        return "illegal";
     } else if (newState.madeACapture(space)){
         // game is won
-        console.log("game ended");
+        // console.log("game ended");
         game.addState(newState);
+        return "won";
     } else {
         // legal move
-        console.log("that was a legal move!");
+        // console.log("that was a legal move!");
         game.addState(newState);
+        return "legal";
     }
 };
 
@@ -38,7 +41,7 @@ method.declareWinner = function(player) {
 };
 
 method.toString = function() {
-    return "First Capture";
+    return "Atari Go";
 };
 
-module.exports = FirstCapture;
+module.exports = AtariGo;

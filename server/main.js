@@ -11,7 +11,7 @@ var Board = require("./board.js");
 var Space = require("./space.js");
 var Game = require("./game.js");
 var Player = require("./player.js");
-var FirstCapture = require("./first-capture.js");
+var AtariGo = require("./atari-go.js");
 
 app.use(express.static("public"));
 app.use(express.static("server"));
@@ -37,7 +37,7 @@ io.on("connection", function(socket) {
         });
         board = new Board(data.boardSize);
         console.log("board in main: " + board.getSpaces());
-        variation = new FirstCapture();
+        variation = new AtariGo();
         game = new Game(board, variation);
         console.log(JSON.stringify(game, null, 4));
         player1 = new Player(data.color, data.name);
@@ -67,14 +67,22 @@ io.on("connection", function(socket) {
     });
 
 
-    socket.on("broadcastTurn", function(data) {
-        variation.move(data.id, data.color, game);
-        var string = game.getCurrentState().getString(game.getCurrentState().getSpaceByLocation(data.id), [], []);
-        // console.log("string: " + string);
-        // console.log("string liberties: " + game.getCurrentState().getStringLiberties(string));
-        // console.log("empty string liberties: " + game.getCurrentState().getEmptyStringLiberties(string));
-
-        io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
+    socket.on("checkMove", function(data) {
+        var status = variation.move(data.id, data.color, game);
+        if (status === "legal") {
+            // game continues
+            io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
+            console.log("legal move!");
+        } else if (status === "won") {
+            // game is won
+            io.in(data.room).emit("gameOver", { color: data.color, player: data.player, room: data.room });
+            console.log("game is over!");
+            socket.leave(data.room);
+        } else {
+            // illegal move, try again, sends message back to self
+            //socket.emit("illegalMove");
+            console.log("illegal move!!");
+        }
     });
 
 
