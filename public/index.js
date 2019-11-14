@@ -135,6 +135,8 @@
      * Create a new game. Emit newGame event.
      */
     $("#new").on("click", function() {
+        $("#board").show();
+        $("#menu").hide();
         console.log("#new on click - index.js");
         var name = $("#player-name-new").val();
         var dim = $('input[name="board-size"]:checked').val();
@@ -153,6 +155,8 @@
      *  Join an existing game on the entered roomId. Emit the joinGame event.
      */
     $("#join").on("click", function() {
+        $("#board").show();
+        $("#menu").hide();
         console.log("#join on click - index.js");
         var name = $("#player-name-join").val();
         var gameId = $("#game-id").val();
