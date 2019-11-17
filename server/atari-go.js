@@ -40,7 +40,7 @@ method.isLegal = function(space, board) {
 };
 
 method.toString = function() {
-    return "Variation: Atari Go";
+    return "Atari Go";
 };
 
 module.exports = AtariGo;

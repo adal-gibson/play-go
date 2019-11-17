@@ -52,7 +52,7 @@ method.hasMoves = function(color, board) {
 };
 
 method.toString = function() {
-    return "Variation: No Go";
+    return "NoGo";
 };
 
 module.exports = NoGo;

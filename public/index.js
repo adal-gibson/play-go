@@ -181,6 +181,26 @@
     });
 
 
+    socket.on("updateRooms", function(rooms) {
+        console.log(rooms);
+
+        $("#select-game").children().remove();
+
+        let existingOptions = [];
+        // $("#select-game").each((index, obj) => {
+        //     existingOptions.push($(obj).val());
+        // });
+        //
+        for(let room of rooms) {
+            let optionText = room.variation + ": " + room.color + ", " + room.size + "x" + room.size;
+            if(!existingOptions.includes(room.room)) {
+                $("#select-game").append(new Option(optionText, room.room));
+                existingOptions.push(room.room);
+            }
+        }
+    });
+
+
     /**
      * New Game created by current client.
      * Update the UI and create new Game var.
@@ -197,16 +217,6 @@
             color: data.color,
             room: data.room
         });
-    });
-
-
-    socket.on("updateRoomList", function(data, rooms) {
-        console.log("updateRoomList");
-        let color = (data.color === "white") ? "black" : "white";
-        for (let room of rooms) {
-            let optionText = data.variation + ": " + color + ", " + data.boardSize + "x" + data.boardSize;
-            $("#select-game").append(new Option(optionText, room));
-        }
     });
 
 
