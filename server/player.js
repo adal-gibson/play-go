@@ -7,6 +7,14 @@ function Player(color, name) {
     this.name = name;
 }
 
+method.getColor = function() {
+    return this.color;
+};
+
+method.getName = function() {
+    return this.name;
+};
+
 method.toString = function() {
     return "name: " + this.name + ", color: " + this.color;
 };

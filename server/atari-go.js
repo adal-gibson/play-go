@@ -5,39 +5,38 @@ var Space = require("./space.js");
 var Game = require("./game.js");
 var Player = require("./player.js");
 
-function AtariGo() {
+// constructor
+function AtariGo() {}
 
-}
-
-method.hasMoves = function(player, board) {
-
-};
-
+// makes a move, makes sure move is legal
 method.move = function(id, color, game) {
     console.log("move called");
-    var oldState = game.getCurrentState();
-    var newState = clone(oldState);
-    var space = newState.getSpaceByLocation(id)
-    space.setColor(color);
-    if (newState.isCaptured(space)) {
-        // illegal move
-        // console.log("illegal move!!");
-        return "illegal";
-    } else if (newState.madeACapture(space)){
-        // game is won
-        // console.log("game ended");
-        game.addState(newState);
-        return "won";
-    } else {
-        // legal move
-        // console.log("that was a legal move!");
+    let oldState = game.getCurrentState();
+    let newState = clone(oldState);
+    let space = newState.getSpaceByLocation(id);
+    space.setColor(color); // this is ok because it's setting the color of a space in a board that will only be logged if move is legal
+    if (this.isLegal(space, newState)) {
+        // legal
+        if (this.checkForWin(space, newState)){
+            // game is won
+            game.addState(newState);
+            return "won";
+        }
+        // legal move, but not over
         game.addState(newState);
         return "legal";
+    } else {
+        // illegal move
+        return "illegal";
     }
 };
 
-method.declareWinner = function(player) {
+method.checkForWin = function(space, board) {
+    return board.madeACapture(space);
+};
 
+method.isLegal = function(space, board) {
+    return !(board.isCaptured(space));
 };
 
 method.toString = function() {

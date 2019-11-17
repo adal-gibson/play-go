@@ -31,14 +31,22 @@
           <h2>Create a Game</h2>
           <div class="form">
             <!-- don't know where this needs to be submitted yet -->
+            <label for="player-name-new">Enter a Player Name</label>
             <div>
-              <label for="player-name-new">Enter a Player Name</label>
               <input
                 type="text"
                 name="player-name-new"
                 id="player-name-new"
                 placeholder="player name"
               >
+            </div>
+
+            <label for="select-variation">Select a Go Variation</label>
+            <div>
+                <select id="select-variation" name="select-variation">
+                    <option value="Atari Go">Atari Go</option>
+                    <option value="NoGo">NoGo</option>
+                </select>
             </div>
 
             <label for="stone-color">Select a Stone Color</label>
@@ -62,8 +70,8 @@
           <h2>Join a Game</h2>
           <div class="form">
             <!-- don't know where this needs to be submitted yet -->
+            <label for="player-name-join">Enter a Player Name</label>
             <div>
-              <label for="player-name-join">Enter a Player Name</label>
               <input
                 type="text"
                 name="player-name-join"
@@ -72,11 +80,10 @@
               >
             </div>
 
+            <label for="select-game">Select a Game to Join</label>
             <div>
-              <label for="game-id">Select a Game to Join</label>
-              <div>
-                <input type="text" name="game-id" id="game-id" placeholder="game id">
-              </div>
+                <select id="select-game" name="select-game">
+                </select>
             </div>
 
             <button id="join">Join Game</button>
