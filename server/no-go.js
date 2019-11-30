@@ -18,11 +18,11 @@ method.move = function(id, color, game) {
     if (this.isLegal(space, newState)) {
         // legal move
         game.addState(newState);
+        if (this.checkForWin(game.getPlayerByColor(color), newState)) {
+            // game is won
+            return color;
+        }
         return "legal";
-    } else if (this.checkForWin(game.getPlayerByColor(color), newState)) {
-        // game is won
-        game.addState(newState);
-        return "won";
     } else {
         // illegal move
         return "illegal";
