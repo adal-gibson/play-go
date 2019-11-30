@@ -13,24 +13,16 @@
     var Player = function(name, color) {
         this.name = name;
         this.color = color;
-        // this.currentTurn = true;
-        // this.movesPlayed = 0;
     };
 
-
     Player.prototype.getPlayerName = function() {
-        console.log("getPlayerName - index.js");
         return this.name;
     };
 
     Player.prototype.getPlayerColor = function() {
-        console.log("getPlayerColor - index.js");
         return this.color;
     };
 
-    /**
-     * Game class
-     */
     var Game = function(roomId, boardSize, variation) {
         this.roomId = roomId;
         this.board = [];
@@ -40,14 +32,10 @@
         this.variation = variation;
     };
 
-
     /**
      * Create the Game board by attaching event listeners to the buttons.
      */
     Game.prototype.createGameBoard = function(data) {
-        console.log("createGameBoard called");
-
-        // console.log(JSON.stringify(data, null, 4));
 
         var color = data.color;
         var dim = data.boardSize; // the dimensions of the board
@@ -80,7 +68,6 @@
 
         $(document).on("click", ".empty", function() {
             if (game.turn === color) {
-                console.log("clicked with color " + color);
                 $(this).removeClass("empty").addClass(color);
                 var id = $(this).attr('id');
                 socket.emit("checkMove", { player: player.getPlayerName(), color: color, id: id, room: game.getRoomId() });
@@ -92,7 +79,6 @@
     };
 
     Game.prototype.getRoomId = function() {
-        console.log("getRoomId - index.js");
         return this.roomId;
     };
 
@@ -106,37 +92,14 @@
 
     Game.prototype.setTurn = function(color) {
         if (color === "white") {
-            console.log("black's turn");
             this.turn = "black";
         } else {
-            console.log("white's turn");
             this.turn = "white";
         }
-    }
+    };
 
     Game.prototype.resetTurn = function(color) {
         this.turn = color;
-    }
-
-    /**
-     * Announce the winner if the current client has won.
-     * Broadcast this on the room to let the opponent know.
-     */
-    Game.prototype.announceWinner = function() {
-        console.log("announceWinner - index.js");
-        // var message = player.getPlayerName() + " wins!";
-        // socket.emit("gameEnded", { room: this.getRoomId(), message: message });
-        // alert(message);
-        // location.reload();
-    };
-
-    /**
-     * End the game if the other player won.
-     */
-    Game.prototype.endGame = function(message) {
-        console.log("endGame - index.js");
-        alert(message);
-        location.reload();
     };
 
 
@@ -145,8 +108,8 @@
      */
     $("#new").on("click", function() {
         $("#board").show();
+        $("#chat").show();
         $("#menu").hide();
-        console.log("#new on click - index.js");
         var name = $("#player-name-new").val();
         var dim = $('input[name="board-size"]:checked').val();
         var color = $('input[name="stone-color"]:checked').val();
@@ -156,7 +119,6 @@
             return;
         }
         socket.emit("createGame", { name: name, boardSize: dim, color: color, variation:  variation});
-        console.log("createGame emitted by #new on click");
         player = new Player(name, color);
     });
 
@@ -165,24 +127,25 @@
      *  Join an existing game on the entered roomId. Emit the joinGame event.
      */
     $("#join").on("click", function() {
-        console.log("#join on click - index.js");
         var name = $("#player-name-join").val();
         var gameId = $("#select-game").val();
         if (!name || !gameId) {
-            console.log("there was a problem");
             alert("Please enter your name and game ID.");
             return;
         }
+        // var gameStr = "/" + gameId;
+        // window.history.pushState(gameId, gameId, gameStr);
+
         $("#board").show();
+        $("#chat").show();
         $("#menu").hide();
         socket.emit("joinGame", { name: name, room: gameId });
-        console.log("joinGame emitted by #join on click");
+
         player = new Player(name, P2);
     });
 
 
     socket.on("updateRooms", function(rooms) {
-        console.log(rooms);
 
         $("#select-game").children().remove();
 
@@ -206,7 +169,8 @@
      * Update the UI and create new Game var.
      */
     socket.on("newGame", function(data) {
-        console.log("newGame - index.js");
+        // var gameStr = "/" + data.room;
+        // window.history.pushState(data.room, data.room, gameStr);
 
         $("#heading").html(data.variation + ": " + player.getPlayerName() + " vs. ???");
         // Create game for player 1
@@ -224,7 +188,6 @@
      * This event is received when opponent connects to the room.
      */
     socket.on("player1", function(data) {
-        console.log("player1 - index.js");
         $("#heading").html(game.getVariation() + ": " + player.getPlayerName() + " vs. " + data.player2);
         var color = "white";
         if (player.getPlayerColor() === "white") {
@@ -242,8 +205,6 @@
 
 
     socket.on("player2", function(data) {
-        console.log("player2 - index.js");
-
         //Create game for player 2
         game = new Game(data.room, data.boardSize, data.variation);
         game.createGameBoard(data);
@@ -260,7 +221,6 @@
      * Notify the user about either scenario and end the game.
      */
     socket.on("gameOver", function(data) {
-        // console.log("gameEnd - index.js");
         // game.endGame(data.message);
         // socket.leave(data.room);
         alert("Game Over! " + data.player + " won!");
@@ -279,7 +239,6 @@
      * End the game on any err event
      */
     socket.on("err", function(data) {
-        console.log("err - index.js");
         $("#board").hide();
         $("#menu").show();
         alert("Sorry, that game is full, please enter another ID!");

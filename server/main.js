@@ -9,8 +9,9 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 
 // used https://flaviocopes.com/node-mongodb/ as a reference for mongodb stuff
+require('dotenv').config();
 const mongo = require("mongodb").MongoClient;
-const url = "mongodb://localhost:27017/";
+const url = "mongodb+srv://" + process.env.DB_URL;
 
 
 var Board = require("./board.js");
@@ -19,6 +20,7 @@ var Game = require("./game.js");
 var Player = require("./player.js");
 var AtariGo = require("./atari-go.js");
 var NoGo = require("./no-go.js");
+var PaperPencilGo = require("./paper-pencil-go.js");
 
 app.use(express.static("public"));
 app.use(express.static("server"));
@@ -59,14 +61,15 @@ io.on("connection", function(socket) {
             });
 
             board = new Board(data.boardSize);
-            console.log("board in main: " + board.getSpaces());
             variation = new AtariGo();
             if (data.variation === "NoGo") {
                 variation = new NoGo();
+            } else if (data.variation ==="Paper & Pencil Go") {
+                variation = new PaperPencilGo();
             }
 
             game = new Game(board, variation);
-            console.log(JSON.stringify(game, null, 4));
+            // console.log(JSON.stringify(game, null, 4));
             player1 = new Player(data.color, data.name);
             // console.log("player1: " + player1);
             game.setPlayer1(player1);
@@ -81,7 +84,6 @@ io.on("connection", function(socket) {
 
 
         socket.on("joinGame", function(data) {
-            console.log("joinGame - main.js");
 
             var room = io.nsps["/"].adapter.rooms[data.room];
             if (room && room.length == 1) {
@@ -104,7 +106,6 @@ io.on("connection", function(socket) {
 
 
         socket.on("broadcast", function(data) {
-            console.log("broadcast: " + JSON.stringify(data, null, 4));
             socket.broadcast.to(data.room).emit("player2", data);
         });
 
@@ -114,21 +115,35 @@ io.on("connection", function(socket) {
             if (status === "legal") {
                 // game continues
                 io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
-                console.log("legal move!");
-            } else if (status === "won") {
-                // game is won
-                io.in(data.room).emit("gameOver", { color: data.color, player: data.player, room: data.room });
-                console.log("game is over!");
+            } else if (status === "black") {
+                // black won
+                // emit winning move
+                io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
+                // declare winner
+                io.in(data.room).emit("gameOver", { color: "black", player: data.player, room: data.room });
 
                 // from https://github.com/socketio/socket.io/issues/3042
                 io.of('/').in(data.room).clients((error, socketIds) => {
                     if (error) throw error;
                     socketIds.forEach(socketId => io.sockets.sockets[socketId].leave(data.room));
                 });
+            } else if (status === "white") {
+                // white won
+                // emit winning move
+                io.in(data.room).emit("turnPlayed", { id: data.id, color: data.color });
+                // declare winner
+                io.in(data.room).emit("gameOver", { color: "white", player: data.player, room: data.room });
+
+                // from https://github.com/socketio/socket.io/issues/3042
+                io.of('/').in(data.room).clients((error, socketIds) => {
+                    if (error) throw error;
+                    socketIds.forEach(socketId => io.sockets.sockets[socketId].leave(data.room));
+                });
+            } else if (status === "tie") {
+                // need to figure out what to do here
             } else {
                 // illegal move, try again, sends message back to self
                 socket.emit("illegalMove", { id: data.id, color: data.color });
-                console.log("illegal move!!");
             }
         });
 

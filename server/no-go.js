@@ -20,7 +20,7 @@ method.move = function(id, color, game) {
         game.addState(newState);
         if (this.checkForWin(game.getPlayerByColor(color), newState)) {
             // game is won
-            return "won";
+            return color;
         }
         return "legal";
     } else {
