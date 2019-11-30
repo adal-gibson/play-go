@@ -216,6 +216,7 @@
         game.setTurn(data.color);
     });
 
+
     /**
      * If the other player wins or game is tied, this event is received.
      * Notify the user about either scenario and end the game.
@@ -242,6 +243,19 @@
         $("#board").hide();
         $("#menu").show();
         alert("Sorry, that game is full, please enter another ID!");
+    });
+
+
+    $("#chat").on("submit", function(e) {
+        e.preventDefault();
+        let message = $('#message-input').val();
+        socket.emit("message-sent", message);
+        $("#messages").append('<li class="mine">' + message + '</li>');
+        $("#message-input").val('');
+    });
+
+    socket.on("message-received", function(message) {
+        $("#messages").append('<li class="yours">' + message + '</li>');
     });
 
 })();

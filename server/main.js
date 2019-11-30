@@ -26,7 +26,7 @@ app.use(express.static("public"));
 app.use(express.static("server"));
 
 let rooms = 0;
-var board, game, variation;
+var board, game, variation, roomId;
 var player1, player2;
 
 // controls what happens when a user connects
@@ -51,6 +51,7 @@ io.on("connection", function(socket) {
 
         socket.on("createGame", function(data) {
             var room = "game-" + (++rooms);
+            roomId = room;
             socket.join(room);
             socket.emit("newGame", {
                 name: data.name,
@@ -84,7 +85,7 @@ io.on("connection", function(socket) {
 
 
         socket.on("joinGame", function(data) {
-
+            roomId = data.room;
             var room = io.nsps["/"].adapter.rooms[data.room];
             if (room && room.length == 1) {
                 socket.join(data.room);
@@ -145,6 +146,11 @@ io.on("connection", function(socket) {
                 // illegal move, try again, sends message back to self
                 socket.emit("illegalMove", { id: data.id, color: data.color });
             }
+        });
+
+
+        socket.on("message-sent", function(message) {
+            socket.broadcast.to(roomId).emit("message-received", message);
         });
 
 

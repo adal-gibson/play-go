@@ -1,0 +1,15 @@
+#messages {
+    list-style-type: none;
+}
+
+li.mine, li.yours {
+
+}
+
+li.mine {
+    color: blue;
+}
+
+li.yours {
+    color: green;
+}
