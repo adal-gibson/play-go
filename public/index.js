@@ -252,13 +252,16 @@
 
     $("#chat").on("submit", function(e) {
         e.preventDefault();
+        console.log("      " + socket.id);
         let message = $('#message-input').val();
-        socket.emit("message-sent", { message: message, from: socket.id.toString() });
+        socket.emit("message-sent", { message: message, from: socket.id });
         $("#message-input").val('');
     });
 
     socket.on("message-received", function(msg) {
         let message;
+        console.log("from: " + msg.from);
+        console.log("  id: " + socket.id);
         if (msg.from.toString() === socket.id.toString()) {
             message = "mine";
         } else {

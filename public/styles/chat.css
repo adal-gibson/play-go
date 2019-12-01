@@ -19,32 +19,14 @@ used https://codingislove.com/css-speech-bubbles/ for speech bubbles
     margin: 0;
 }
 
-/* li.mine, li.yours {
-    color: white;
-    padding: 5px;
-    max-width: 60%;
-    margin: 0;
-    border-radius: 50%;
-}
 
-li.mine {
-    background-color: blue;
-    float: right;
-    clear: both;
-}
-
-li.yours {
-    backgroud-color: green;
-    float: left;
-    clear: both;
-} */
 
 li {
   margin: 5px auto;
-  background: #00bfb6;
   padding: 2px;
-  color: #fff;
   position:relative;
+  border-radius: 4px;
+  padding: 5px;
 }
 
 li.mine {
@@ -68,6 +50,8 @@ li.mine {
 li.yours {
     float: left;
     clear: both;
+    background-color: #bbbaac;
+    color: black;
 }
 
 .yours:before {
@@ -76,8 +60,8 @@ li.yours {
   height: 0px;
   position: absolute;
   border-left: 5px solid transparent;
-  border-right: 5px solid #00bfb6;
-  border-top: 5px solid #00bfb6;
+  border-right: 5px solid #bbbaac;
+  border-top: 5px solid #bbbaac;
   border-bottom: 5px solid transparent;
   left: -10px;
   top: 3px;
