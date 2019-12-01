@@ -256,6 +256,7 @@
 
     socket.on("message-received", function(message) {
         $("#messages").append('<li class="yours">' + message + '</li>');
+        console.log("did this work");
     });
 
 })();
