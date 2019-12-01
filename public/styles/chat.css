@@ -1,15 +1,84 @@
-#messages {
-    list-style-type: none;
+/*
+used https://codingislove.com/css-speech-bubbles/ for speech bubbles
+*/
+
+#chat {
+    margin: 5%;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    padding: 15px;
+    display: none;
 }
 
-li.mine, li.yours {
+#messages {
+    width: 100%;
+    list-style-type: none;
+    overflow: scroll;
+    padding: 15px;
+    margin: 0;
+}
 
+/* li.mine, li.yours {
+    color: white;
+    padding: 5px;
+    max-width: 60%;
+    margin: 0;
+    border-radius: 50%;
 }
 
 li.mine {
-    color: blue;
+    background-color: blue;
+    float: right;
+    clear: both;
 }
 
 li.yours {
-    color: green;
+    backgroud-color: green;
+    float: left;
+    clear: both;
+} */
+
+li {
+  margin: 5px auto;
+  background: #00bfb6;
+  padding: 2px;
+  color: #fff;
+  position:relative;
+}
+
+li.mine {
+    float: right;
+    clear: both;
+}
+
+.mine:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 5px solid #00bfb6;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #00bfb6;
+  border-bottom: 5px solid transparent;
+  right: -10px;
+  top: 3px;
+}
+
+li.yours {
+    float: left;
+    clear: both;
+}
+
+.yours:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 5px solid transparent;
+  border-right: 5px solid #00bfb6;
+  border-top: 5px solid #00bfb6;
+  border-bottom: 5px solid transparent;
+  left: -10px;
+  top: 3px;
 }
