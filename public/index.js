@@ -252,17 +252,19 @@
 
     $("#chat").on("submit", function(e) {
         e.preventDefault();
-        console.log("      " + socket.id);
+        // console.log("      " + socket.id);
+        console.log(player);
         let message = $('#message-input').val();
-        socket.emit("message-sent", { message: message, from: socket.id });
+        socket.emit("message-sent", { message: message, from: player.getPlayerColor() });
         $("#message-input").val('');
     });
 
     socket.on("message-received", function(msg) {
         let message;
-        console.log("from: " + msg.from);
-        console.log("  id: " + socket.id);
-        if (msg.from.toString() === socket.id.toString()) {
+        // console.log("from: " + msg.from);
+        // console.log("  id: " + socket.id);
+        console.log(player);
+        if (msg.from === player.getPlayerColor()) {
             message = "mine";
         } else {
             message = "yours";
