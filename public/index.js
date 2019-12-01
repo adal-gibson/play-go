@@ -9,6 +9,8 @@
     var player, game;
     var P1;
     var P2;
+    var sheets = document.styleSheets;
+    var sheet = document.styleSheets[sheets.length-1];
 
     var Player = function(name, color) {
         this.name = name;
@@ -257,6 +259,61 @@
     socket.on("message-received", function(message) {
         $("#messages").append('<li class="yours">' + message + '</li>');
         console.log("did this work");
+    });
+
+    /* changes background of board*/
+
+    $("#background001").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
+        $("text").css("fill", "brown");
+    });
+
+    $("#background002").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
+        $("text").css("fill", "brown");
+    });
+
+    $("#background003").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
+        $("text").css("fill", "brown");
+    });
+
+    $("#background004").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
+        $("text").css("fill", "brown");
+    });
+
+    $("#background005").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
+        $("text").css("fill", "#ffffcc");
+    });
+
+    $("#background006").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
+        $("text").css("fill", "#000033");
+    });
+
+    /* color of grid/stones */
+
+    $("#grid").on("change", function() {
+        $("line").css("stroke", $(this).val());
+        $("text").css("stroke", $(this).val());
+    });
+
+    $("#black").on("change", function() {
+        $("circle.black").css("fill", $(this).val());
+        $("circle.black").css("stroke", $(this).val());
+        $("circle.white").css("stroke", $(this).val());
+
+        console.log(sheet);
+        sheet.insertRule("circle.black {fill: " + $(this).val() + "; stroke: " + $(this).val() + ";}", sheet.rules.length);
+        sheet.insertRule("circle.white { stroke: " + $(this).val() + ";}", sheet.rules.length);
+    });
+
+    $("#white").on("change", function() {
+        $("circle.white").css("fill", $(this).val());
+
+        sheet.insertRule("circle.white {fill: " + $(this).val() + ";}", sheet.rules.length);
     });
 
 })();

@@ -11,7 +11,8 @@ var io = require("socket.io")(http);
 // used https://flaviocopes.com/node-mongodb/ as a reference for mongodb stuff
 require('dotenv').config();
 const mongo = require("mongodb").MongoClient;
-const url = "mongodb+srv://" + process.env.DB_URL;
+// const url = "mongodb+srv://" + process.env.DB_URL;
+const url = "mongodb://127.0.0.1:27017";
 
 
 var Board = require("./board.js");

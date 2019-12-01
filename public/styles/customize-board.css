@@ -1,3 +1,7 @@
+#colors {
+    margin: 10px;
+}
+
 #customize-board-popup {
     border-color: black;
     border-style: solid;
@@ -12,10 +16,6 @@
     grid-template-columns: 0.8fr 0.8fr 0.8fr;
     column-gap: 10px;
     row-gap: 10px;
-}
-
-#colors {
-    margin: 10px;
 }
 
 button.background-select {
@@ -35,45 +35,3 @@ button.background-select img {
     height: 100%;
     width: 100%;
 }
-
-/* #background001 {
-    grid-column-start: 1;
-    grid-column-end: span 1;
-    grid-row-start: 1;
-    grid-row-end: span 1;
-}
-
-#background002 {
-    grid-column-start: 2;
-    grid-column-end: span 1;
-    grid-row-start: 1;
-    grid-row-end: span 1;
-}
-
-#background003 {
-    grid-column-start: 3;
-    grid-column-end: span 1;
-    grid-row-start: 1;
-    grid-row-end: span 1;
-}
-
-#background004 {
-    grid-column-start: 1;
-    grid-column-end: span 1;
-    grid-row-start: 2;
-    grid-row-end: span 1;
-}
-
-#background005 {
-    grid-column-start: 2;
-    grid-column-end: span 1;
-    grid-row-start: 2;
-    grid-row-end: span 1;
-}
-
-#background006 {
-    grid-column-start: 3;
-    grid-column-end: span 1;
-    grid-row-start: 2;
-    grid-row-end: span 1;
-} */
