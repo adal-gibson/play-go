@@ -101,16 +101,6 @@
       </div>
     </div>
 
-    <div id="chat" class="chat">
-        <ul id="messages">
-
-        </ul>
-        <form action="">
-            <input id="message-input" autocomplete="off"/>
-            <button>Send</button>
-        </form>
-    </div>
-
     <div id="customize-board-popup">
         <div id="backgrounds">
             <button id="background001" class="background-select"> <img src="/styles/backgrounds/woodgrain001.jpg" /> </button>
@@ -129,8 +119,19 @@
             <input type="color" id="white" name="white"
          value="#ffffff"> <label for="white">White Stones</label>
      </div>
+     <button id="close-popup">Done</button>
     </div>
     <button id="open-customize-popup">Edit Board</button>
+
+    <div id="chat" class="chat">
+        <ul id="messages">
+
+        </ul>
+        <form action="">
+            <input id="message-input" autocomplete="off"/>
+            <button>Send</button>
+        </form>
+    </div>
 
     <!-- includes socket.io -->
     <script src="/socket.io/socket.io.js"></script>

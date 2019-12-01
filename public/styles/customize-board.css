@@ -6,21 +6,25 @@
     border-color: black;
     border-style: solid;
     border-radius: 10px;
-    padding: 10px;
-    display: inline-block;
+    padding: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
 }
 
 #backgrounds {
-    display: inline-grid;
+    display: grid;
     grid-template-rows: 0.8fr 0.8fr;
     grid-template-columns: 0.8fr 0.8fr 0.8fr;
-    column-gap: 10px;
-    row-gap: 10px;
+    column-gap: 5px;
+    row-gap: 5px;
+    max-width: 100%;
+    margin: 5px;
 }
 
 button.background-select {
-    height: 100px;
-    width: 100px;
+    width: 100%;
     overflow: hidden;
     padding: 0;
     margin: 0;
@@ -28,10 +32,44 @@ button.background-select {
     border-style: solid;
     border-radius: 10px;
     background: none;
-    justify-self: center;
+    /* justify-self: center; */
 }
 
 button.background-select img {
     height: 100%;
     width: 100%;
+}
+
+button.background-select:after {
+  content: "";
+  display: block;
+  padding-bottom: 25%;
+}
+
+#close-popup {
+    display: block;
+    width: 15%;
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    padding: 3px;
+    background-color: #a51919;
+    color: white;
+}
+
+#open-customize-popup {
+    display: block;
+    width: 110px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    color: black;
+    padding: 3px;
 }

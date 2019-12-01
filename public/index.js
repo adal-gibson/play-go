@@ -112,6 +112,7 @@
         $("#board").show();
         $("#chat").show();
         $("#menu").hide();
+        $("#open-customize-popup").css("display", "block");
         var name = $("#player-name-new").val();
         var dim = $('input[name="board-size"]:checked').val();
         var color = $('input[name="stone-color"]:checked').val();
@@ -141,6 +142,7 @@
         $("#board").show();
         $("#chat").show();
         $("#menu").hide();
+        $("#open-customize-popup").css("display", "block");
         socket.emit("joinGame", { name: name, room: gameId });
 
         player = new Player(name, P2);
@@ -251,15 +253,32 @@
     $("#chat").on("submit", function(e) {
         e.preventDefault();
         let message = $('#message-input').val();
-        socket.emit("message-sent", message);
-        $("#messages").append('<li class="mine">' + message + '</li>');
+        socket.emit("message-sent", { message: message, from: socket.id.toString() });
         $("#message-input").val('');
     });
 
-    socket.on("message-received", function(message) {
-        $("#messages").append('<li class="yours">' + message + '</li>');
-        console.log("did this work");
+    socket.on("message-received", function(msg) {
+        let message;
+        if (msg.from.toString() === socket.id.toString()) {
+            message = "mine";
+        } else {
+            message = "yours";
+        }
+
+        $("#messages").append('<li class="' + message + '">' + msg.message + '</li>');
     });
+
+
+    $("#open-customize-popup").on("click", function() {
+        $("#customize-board-popup").css("display", "block");
+        $("#open-customize-popup").css("display", "none");
+    });
+
+    $("#close-popup").on("click", function() {
+        $("#customize-board-popup").css("display", "none");
+        $("#open-customize-popup").css("display", "block");
+    });
+
 
     /* changes background of board*/
 

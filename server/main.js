@@ -150,8 +150,9 @@ io.on("connection", function(socket) {
         });
 
 
-        socket.on("message-sent", function(message) {
-            socket.broadcast.to(roomId).emit("message-received", message);
+        socket.on("message-sent", function(msg) {
+            console.log(msg.from);
+            io.in(roomId).emit("message-received", { message: msg.message, from: msg.from });
         });
 
 
