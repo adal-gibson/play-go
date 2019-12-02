@@ -1,3 +1,55 @@
+@media only screen and (max-width: 600px) {
+    #customize-board-popup {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    #customize-board-popup {
+        width: 90%;
+        margin: 20px;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    #customize-board-popup {
+        width: 85%;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    #customize-board-popup {
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    #customize-board-popup {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    #customize-board-popup {
+        width: 62%;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    #customize-board-popup {
+        width: 55%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #customize-board-popup {
+        width: 40%;
+        max-width: 40vh;
+    }
+}
+
+
 #colors {
     margin: 10px;
 }
@@ -54,22 +106,36 @@ button.background-select:after {
     margin-right: auto;
     border-style: solid;
     border-color: black;
-    border-radius: 10px;
+    border-radius: 3px;
     padding: 3px;
     background-color: #a51919;
     color: white;
 }
 
 #open-customize-popup {
-    display: block;
+    background-image: url("/styles/backgrounds/woodgrain004.jpg");
+    background-size: cover;
     width: 110px;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    display: none;
+    margin-bottom: 10px;
     border-style: solid;
     border-color: black;
-    border-radius: 10px;
+    border-radius: 3px;
+    border-width: 2px;
     color: black;
+    font-weight: bold;
+    font-size: 110%;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: black;
     padding: 3px;
+    display: none;
+}
+
+#open-customize-popup:hover,  #open-customize-popup:focus{
+    color: white;
+    background-image: none !important;
+    background-color: black !important;
 }

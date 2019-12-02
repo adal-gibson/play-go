@@ -110,7 +110,7 @@ var player;
      */
     $("#new").on("click", function() {
         $("#board").show();
-        $("#chat").show();
+        $("#chat").css("display", "flex");
         $("#menu").hide();
         $("#open-customize-popup").css("display", "block");
         var name = $("#player-name-new").val();
@@ -140,7 +140,7 @@ var player;
         // window.history.pushState(gameId, gameId, gameStr);
 
         $("#board").show();
-        $("#chat").show();
+        $("#chat").css("display", "flex");
         $("#menu").hide();
         $("#open-customize-popup").css("display", "block");
         socket.emit("joinGame", { name: name, room: gameId });
@@ -289,32 +289,38 @@ var player;
 
     $("#background001").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
-        $("text").css("fill", "brown");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
+        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
     });
 
     $("#background002").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
-        $("text").css("fill", "brown");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
+        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
     });
 
     $("#background003").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
-        $("text").css("fill", "brown");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
+        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
     });
 
     $("#background004").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
-        $("text").css("fill", "brown");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
+        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
     });
 
     $("#background005").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
-        $("text").css("fill", "#ffffcc");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
+        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
     });
 
     $("#background006").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
-        $("text").css("fill", "#000033");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
+        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
     });
 
     /* color of grid/stones */
@@ -322,6 +328,7 @@ var player;
     $("#grid").on("change", function() {
         $("line").css("stroke", $(this).val());
         $("text").css("stroke", $(this).val());
+        $("text").css("fill", $(this).val());
     });
 
     $("#black").on("change", function() {
@@ -330,14 +337,14 @@ var player;
         $("circle.white").css("stroke", $(this).val());
 
         console.log(sheet);
-        sheet.insertRule("circle.black {fill: " + $(this).val() + "; stroke: " + $(this).val() + ";}", sheet.rules.length);
-        sheet.insertRule("circle.white { stroke: " + $(this).val() + ";}", sheet.rules.length);
+        sheet.insertRule("circle.black {fill: " + $(this).val() + "; stroke: " + $(this).val() + ";}", sheet.rules.length-1);
+        sheet.insertRule("circle.white { stroke: " + $(this).val() + ";}", sheet.rules.length-1);
     });
 
     $("#white").on("change", function() {
         $("circle.white").css("fill", $(this).val());
 
-        sheet.insertRule("circle.white {fill: " + $(this).val() + ";}", sheet.rules.length);
+        sheet.insertRule("circle.white {fill: " + $(this).val() + ";}", sheet.rules.length-1);
     });
 
 })();

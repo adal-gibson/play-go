@@ -2,21 +2,114 @@
 used https://codingislove.com/css-speech-bubbles/ for speech bubbles
 */
 
+
+@media only screen and (max-width: 600px) {
+    #chat {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    #chat {
+        width: 90%;
+        margin: 20px;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    #chat {
+        width: 85%;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    #chat {
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    #chat {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    #chat {
+        width: 62%;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    #chat {
+        width: 55%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #chat {
+        width: 40%;
+        max-width: 40vh;
+    }
+}
+
 #chat {
-    margin: 5%;
+    max-height: 80vh;
     border-style: solid;
     border-color: black;
     border-radius: 10px;
-    padding: 15px;
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-end;
     display: none;
+    overflow: hidden;
+}
+
+#chat form {
+    border-top: black solid;
+    width: 100%;
+    padding: 5px;
+    align-self: center;
+    background-image: url("/styles/backgrounds/woodgrain004.jpg");
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+#chat form input {
+    border: solid black;
+    border-radius: 3px;
+    border-width: 2px;
+    margin: 5px;
+    width: calc(100% - 80px);
+}
+
+#chat form button {
+    width: 80px;
+    border: solid black;
+    border-radius: 3px;
+    color: black;
+    border-width: 2px;
+    margin: 5px;
+    margin-left: 0;
+    align-self: flex-end;
+}
+
+#chat form button:hover, #chat form button:focus {
+    color: white;
+    background-color: black;
 }
 
 #messages {
-    width: 100%;
     list-style-type: none;
-    overflow: scroll;
-    padding: 15px;
-    margin: 0;
+    margin-top: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-width: 100%;
+    align-self: stretch;
 }
 
 
@@ -27,9 +120,13 @@ li {
   position:relative;
   border-radius: 4px;
   padding: 5px;
+  max-width: 90%;
+  word-wrap: normal;
+  white-space: normal;
 }
 
 li.mine {
+    margin-right: 10px;
     float: right;
     clear: both;
     background-color: #00688B;
@@ -50,6 +147,7 @@ li.mine {
 }
 
 li.yours {
+    margin-left: 10px;
     float: left;
     clear: both;
     background-color: #bbbaac;
