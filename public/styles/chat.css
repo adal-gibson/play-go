@@ -32,6 +32,8 @@ li {
 li.mine {
     float: right;
     clear: both;
+    background-color: #00688B;
+    color: white;
 }
 
 .mine:before {
@@ -39,9 +41,9 @@ li.mine {
   width: 0px;
   height: 0px;
   position: absolute;
-  border-left: 5px solid #00bfb6;
+  border-left: 5px solid #00688B;
   border-right: 5px solid transparent;
-  border-top: 5px solid #00bfb6;
+  border-top: 5px solid #00688B;
   border-bottom: 5px solid transparent;
   right: -10px;
   top: 3px;

@@ -2,11 +2,11 @@
  * javascript
  * used // https://ayushgp.github.io/Tic-Tac-Toe-Socket-IO/ as a guide
  */
-
+var player;
 (function() {
 
     var socket = io();
-    var player, game;
+    var game;
     var P1;
     var P2;
     var sheets = document.styleSheets;
