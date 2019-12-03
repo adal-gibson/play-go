@@ -1,243 +1,143 @@
-/* @media only screen and (max-width: 315px) {
-
-    #content {
-        width: 100%;
-    }
-
-    #customize-board-popup {
-        width: 100%;
-    }
-
-    #menu {
-        width: 100%;
-    }
-
+@media only screen and (max-width: 310px) {
     h1 {
-        font-size: 200%;
-    }
-
-    h2 {
         font-size: 150%;
     }
 
-    label {
-        font-size: 88%;
-    }
-
-} */
-
-/* @media only screen and (min-width: 315px) {
-
-    #content {
-        width: 100%;
-    }
-
-    #customize-board-popup {
-        width: 100%;
-    }
-
-    #menu {
-        width: 100%;
-    }
-
-    h1 {
-        font-size: 200%;
-    }
-
     h2 {
-        font-size: 150%;
+        font-size: 130%;
     }
 
-    label {
-        font-size: 98%;
-    }
-
-} */
-
-/* @media only screen and (min-width: 360px) {
-
-    #customize-board-popup {
-        width: 90%;
-    }
-
-    label {
-        font-size: 115%;
-    }
-
-} */
-
-/* Extra small devices (phones, 600px and down) */
-/* @media only screen and (min-width: 400px) {
-
-    #content {
+    /* #menu {
         width: 100%;
-    }
-
-    #customize-board-popup {
-        width: 80%;
-    }
-
-    #menu {
-        width: 97%;
-    }
-
-    h1 {
-        font-size: 210%;
-    }
-
-    h2 {
-        font-size: 155%;
-    }
-
-    label {
-        font-size: 120%;
-    }
-
-} */
-
-/* @media only screen and (min-width: 500px) {
-
-    #content {
-        width: 97%;
-    }
-
-    #customize-board-popup {
-        width: 70%;
-    }
-
-    #menu {
-        width: 95%;
-    }
-
-    h1 {
-        font-size: 215%;
-    }
-
-    h2 {
-        font-size: 160%;
-    }
-} */
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-/* @media only screen and (min-width: 600px) {
-
-    #content {
-        width: 90%;
-    }
-
-    #customize-board-popup {
-        width: 60%;
-    }
-} */
-
-/* Small devices, mid point */
-/* @media only screen and (min-width: 700px) {
-
-    #customize-board-popup {
-        width: 55%;
-    }
-
-    #menu {
-        width: 90%;
-    }
-
-    h1 {
-        font-size: 220%;
-    }
-
-    h2 {
-        font-size: 165%;
-    }
+    } */
 
     label {
         font-size: 125%;
     }
-} */
 
-/* Medium devices (landscape tablets, 768px and up) */
-/* @media only screen and (min-width: 768px) {
+    input, select, radio {
+        margin-bottom: 10px;
+    }
+}
 
-    #customize-board-popup {
-        width: 50%;
+@media only screen and (min-width: 310px) {
+    h1 {
+        font-size: 190%;
+    }
+    /* #menu {
+        width: 100%;
+    } */
+
+    label {
+        font-size: 135%;
     }
 
-    #content {
-        width: 80%;
+    input, select, radio {
+        margin-bottom: 10px;
     }
-} */
+}
 
-/* @media only screen and (min-width: 850px) {
+@media only screen and (min-width: 400px) {
+    /* #menu {
+        width: 90%;
+    } */
 
-    #customize-board-popup {
-        width: 45%;
-    }
-
-    #menu {
-        width: 80%;
+    label {
+        font-size: 145%;
     }
 
     h1 {
-        font-size: 230%;
+        font-size: 250%;
     }
 
     h2 {
-        font-size: 170%;
-    }
-} */
-
-/* Large devices (laptops/desktops, 992px and up) */
-/* @media only screen and (min-width: 992px) {
-
-    #customize-board-popup {
-        width: 35%;
+        font-size: 190%;
     }
 
-    #content {
-        width: 70%;
+    input, select, radio {
+        margin-bottom: 15px;
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    /* #menu {
+        width: 75%;
+    } */
+    label {
+        font-size: 155%;
     }
 
+    input, select, radio {
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 800px) {
     h1 {
-        font-size: 235%;
-    }
-} */
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-/* @media only screen and (min-width: 1200px) {
-
-    #customize-board-popup {
-        width: 30%;
-    }
-
-    #menu {
-        width: 70%;
-        max-width: 800px;
-    }
-
-    h1 {
-        font-size: 245%;
+        font-size: 270%;
     }
 
     h2 {
-        font-size: 175%;
+        font-size: 210%;
     }
 
     label {
-        font-size: 130%;
+        font-size: 175%;
     }
-} */
+
+    input, select, radio {
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    h1 {
+        font-size: 300%;
+    }
+
+    h2 {
+        font-size: 240%;
+    }
+
+    label {
+        font-size: 190%;
+    }
+
+    input, select, radio {
+        margin-bottom: 20px;
+    }
+}
+
+
 
 
 #board-container {
     width: 100%;
     max-width: 80vh;
-    margin-left: auto;
-    margin-right: auto;
+    display: none;
 }
 
+
 body {
-    font-family: 'Roboto Mono', monospace;
-    /* font-family: 'Roboto Slab', serif;
-    font-family: 'Quicksand', sans-serif; */
+    /* font-family: 'Roboto Mono', monospace; */
+    font-family: 'Roboto Slab', serif;
+    /* font-family: 'Quicksand', sans-serif; */
+    font-family: 'Raleway', serif;
+}
+
+button {
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+    border-width: 2px;
+    color: black;
+    padding: 3px;
+    margin-bottom: 5px;
+}
+
+button:hover, button:focus {
+    color: white;
+    background-color: black;
 }
 
 #content {
@@ -249,12 +149,19 @@ body {
     max-width: 100%;
     max-height: 90vh;
     padding-bottom: 10px;
-    @include fluid-type(width, 600px, 1200px, 100%, 50%);
 }
 
 
 h1, h2 {
     text-align: center;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin-top: 5px;
 }
 
 input[type="text"], textarea {
@@ -263,22 +170,42 @@ input[type="text"], textarea {
 }
 
 #join-game {
-    margin: 5%;
+    margin: 10px 20px;
     border-style: solid;
     border-color: black;
     border-radius: 10px;
-    padding: 2%;
+    padding: 10px;
+    /* max-width: 500px; */
+    max-width: 100%;
 }
 
 #menu {
     margin-left: auto;
     margin-right: auto;
+    /* width: 900px; */
+    width: 100%;
+    max-width: 1200px;
+    /* align-self: center; */
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    flex-direction: row;
 }
 
 #new-game {
-    margin: 5%;
+    margin: 10px 20px;
     border-style: solid;
     border-color: black;
     border-radius: 10px;
-    padding: 2%;
+    padding: 10px;
+    /* max-width: 500px; */
+    max-width: 100%;
+}
+
+#new, #join {
+    display: block;
+    width: 110px;
+    margin-left: auto;
+    margin-right: auto;
 }

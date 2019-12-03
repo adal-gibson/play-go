@@ -55,6 +55,7 @@ used https://codingislove.com/css-speech-bubbles/ for speech bubbles
 }
 
 #chat {
+    min-height: 150px;
     max-height: 80vh;
     border-style: solid;
     border-color: black;
@@ -89,19 +90,15 @@ used https://codingislove.com/css-speech-bubbles/ for speech bubbles
 
 #chat form button {
     width: 80px;
-    border: solid black;
+    /* border: solid black;
     border-radius: 3px;
     color: black;
-    border-width: 2px;
+    border-width: 2px; */
     margin: 5px;
     margin-left: 0;
     align-self: flex-end;
 }
 
-#chat form button:hover, #chat form button:focus {
-    color: white;
-    background-color: black;
-}
 
 #messages {
     list-style-type: none;

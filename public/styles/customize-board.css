@@ -49,22 +49,6 @@
     }
 }
 
-
-#colors {
-    margin: 10px;
-}
-
-#customize-board-popup {
-    border-color: black;
-    border-style: solid;
-    border-radius: 10px;
-    padding: 0;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    display: none;
-}
-
 #backgrounds {
     display: grid;
     grid-template-rows: 0.8fr 0.8fr;
@@ -100,42 +84,35 @@ button.background-select:after {
 
 #close-popup {
     display: block;
-    width: 15%;
-    margin: 5px;
+    width: 80px;
+    margin: 8px;
     margin-left: auto;
     margin-right: auto;
-    border-style: solid;
+}
+
+#colors {
+    margin: 10px;
+}
+
+#customize-board-popup {
+    width: 100%;
+    max-width: 30vh;
     border-color: black;
-    border-radius: 3px;
-    padding: 3px;
-    background-color: #a51919;
-    color: white;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 0;
+    display: block;
+    /* margin-left: auto;
+    margin-right: auto; */
+    display: none;
+    align-self: flex-end;
 }
 
 #open-customize-popup {
-    background-image: url("/styles/backgrounds/woodgrain004.jpg");
-    background-size: cover;
     width: 110px;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
-    border-style: solid;
-    border-color: black;
-    border-radius: 3px;
-    border-width: 2px;
-    color: black;
-    font-weight: bold;
-    font-size: 110%;
-    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 1.5px;
-    -webkit-text-stroke-color: black;
-    padding: 3px;
     display: none;
-}
-
-#open-customize-popup:hover,  #open-customize-popup:focus{
-    color: white;
-    background-image: none !important;
-    background-color: black !important;
 }

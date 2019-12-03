@@ -109,7 +109,7 @@ var player;
      * Create a new game. Emit newGame event.
      */
     $("#new").on("click", function() {
-        $("#board").show();
+        $("#board-container").show();
         $("#chat").css("display", "flex");
         $("#menu").hide();
         $("#open-customize-popup").css("display", "block");
@@ -139,7 +139,7 @@ var player;
         // var gameStr = "/" + gameId;
         // window.history.pushState(gameId, gameId, gameStr);
 
-        $("#board").show();
+        $("#board-container").show();
         $("#chat").css("display", "flex");
         $("#menu").hide();
         $("#open-customize-popup").css("display", "block");
@@ -290,37 +290,31 @@ var player;
     $("#background001").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
         $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
-        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
     });
 
     $("#background002").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
         $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
-        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
     });
 
     $("#background003").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
         $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
-        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
     });
 
     $("#background004").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
         $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
-        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
     });
 
     $("#background005").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
         $("#chat form").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
-        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
     });
 
     $("#background006").on("click", function() {
         $("#board").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
         $("#chat form").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
-        $("#open-customize-popup").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
     });
 
     /* color of grid/stones */
