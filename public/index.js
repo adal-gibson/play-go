@@ -2,13 +2,15 @@
  * javascript
  * used // https://ayushgp.github.io/Tic-Tac-Toe-Socket-IO/ as a guide
  */
-
+var player;
 (function() {
 
     var socket = io();
-    var player, game;
+    var game;
     var P1;
     var P2;
+    var sheets = document.styleSheets;
+    var sheet = document.styleSheets[sheets.length-1];
 
     var Player = function(name, color) {
         this.name = name;
@@ -107,9 +109,10 @@
      * Create a new game. Emit newGame event.
      */
     $("#new").on("click", function() {
-        $("#board").show();
-        $("#chat").show();
+        $("#board-container").show();
+        $("#chat").css("display", "flex");
         $("#menu").hide();
+        $("#open-customize-popup").css("display", "block");
         var name = $("#player-name-new").val();
         var dim = $('input[name="board-size"]:checked').val();
         var color = $('input[name="stone-color"]:checked').val();
@@ -136,9 +139,10 @@
         // var gameStr = "/" + gameId;
         // window.history.pushState(gameId, gameId, gameStr);
 
-        $("#board").show();
-        $("#chat").show();
+        $("#board-container").show();
+        $("#chat").css("display", "flex");
         $("#menu").hide();
+        $("#open-customize-popup").css("display", "block");
         socket.emit("joinGame", { name: name, room: gameId });
 
         player = new Player(name, P2);
@@ -216,6 +220,7 @@
         game.setTurn(data.color);
     });
 
+
     /**
      * If the other player wins or game is tied, this event is received.
      * Notify the user about either scenario and end the game.
@@ -242,6 +247,98 @@
         $("#board").hide();
         $("#menu").show();
         alert("Sorry, that game is full, please enter another ID!");
+    });
+
+
+    $("#chat").on("submit", function(e) {
+        e.preventDefault();
+        // console.log("      " + socket.id);
+        console.log(player);
+        let message = $('#message-input').val();
+        socket.emit("message-sent", { message: message, from: player.getPlayerColor() });
+        $("#message-input").val('');
+    });
+
+    socket.on("message-received", function(msg) {
+        let message;
+        // console.log("from: " + msg.from);
+        // console.log("  id: " + socket.id);
+        console.log(player);
+        if (msg.from === player.getPlayerColor()) {
+            message = "mine";
+        } else {
+            message = "yours";
+        }
+
+        $("#messages").append('<li class="' + message + '">' + msg.message + '</li>');
+    });
+
+
+    $("#open-customize-popup").on("click", function() {
+        $("#customize-board-popup").css("display", "block");
+        $("#open-customize-popup").css("display", "none");
+    });
+
+    $("#close-popup").on("click", function() {
+        $("#customize-board-popup").css("display", "none");
+        $("#open-customize-popup").css("display", "block");
+    });
+
+
+    /* changes background of board*/
+
+    $("#background001").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain001.jpg')");
+    });
+
+    $("#background002").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain002.jpg')");
+    });
+
+    $("#background003").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain003.jpg')");
+    });
+
+    $("#background004").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/woodgrain004.jpg')");
+    });
+
+    $("#background005").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/marble001.jpg')");
+    });
+
+    $("#background006").on("click", function() {
+        $("#board").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
+        $("#chat form").css("background-image", "url('/styles/backgrounds/marble002.jpg')");
+    });
+
+    /* color of grid/stones */
+
+    $("#grid").on("change", function() {
+        $("line").css("stroke", $(this).val());
+        $("text").css("stroke", $(this).val());
+        $("text").css("fill", $(this).val());
+    });
+
+    $("#black").on("change", function() {
+        $("circle.black").css("fill", $(this).val());
+        $("circle.black").css("stroke", $(this).val());
+        $("circle.white").css("stroke", $(this).val());
+
+        console.log(sheet);
+        sheet.insertRule("circle.black {fill: " + $(this).val() + "; stroke: " + $(this).val() + ";}", sheet.rules.length-1);
+        sheet.insertRule("circle.white { stroke: " + $(this).val() + ";}", sheet.rules.length-1);
+    });
+
+    $("#white").on("change", function() {
+        $("circle.white").css("fill", $(this).val());
+
+        sheet.insertRule("circle.white {fill: " + $(this).val() + ";}", sheet.rules.length-1);
     });
 
 })();

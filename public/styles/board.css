@@ -3,13 +3,13 @@
     height: 0;
     padding-bottom: 100%;
     margin: 20px auto;
+    margin-bottom: 10px;
     background-image: url("/styles/backgrounds/woodgrain004.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     border-style: solid;
     border-radius: 10px;
     border-color: black;
-    display: none;
 }
 
 svg.board {
@@ -54,14 +54,8 @@ circle.black {
     fill-opacity: 1;
 }
 
-circle.clicked {
-    stroke: blue;
-    fill: blue;
-    fill-opacity: .5;
-}
-
 text {
     stroke: black;
     stroke-width: .24;
-    fill: brown;
+    fill: black;
 }
