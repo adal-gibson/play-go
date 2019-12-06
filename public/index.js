@@ -135,17 +135,18 @@ var player;
         if (!name || !gameId) {
             alert("Please enter your name and game ID.");
             return;
+        } else {
+            // var gameStr = "/" + gameId;
+            // window.history.pushState(gameId, gameId, gameStr);
+
+            $("#board-container").show();
+            $("#chat").css("display", "flex");
+            $("#menu").hide();
+            $("#open-customize-popup").css("display", "block");
+            socket.emit("joinGame", { name: name, room: gameId });
+
+            player = new Player(name, P2);
         }
-        // var gameStr = "/" + gameId;
-        // window.history.pushState(gameId, gameId, gameStr);
-
-        $("#board-container").show();
-        $("#chat").css("display", "flex");
-        $("#menu").hide();
-        $("#open-customize-popup").css("display", "block");
-        socket.emit("joinGame", { name: name, room: gameId });
-
-        player = new Player(name, P2);
     });
 
 
@@ -229,7 +230,7 @@ var player;
         // game.endGame(data.message);
         // socket.leave(data.room);
         alert("Game Over! " + data.player + " won!");
-        $("#board").hide();
+        $("#board-container").hide();
         $("#menu").show();
         $("#heading").html("Play Go");
         $("#chat").hide();
@@ -246,8 +247,11 @@ var player;
      * End the game on any err event
      */
     socket.on("err", function(data) {
-        $("#board").hide();
+        $("#board-container").hide();
         $("#menu").show();
+        $("#chat").hide();
+        $("#open-customize-popup").hide();
+
         alert("Sorry, that game is full, please enter another ID!");
     });
 
