@@ -232,6 +232,8 @@ var player;
         $("#board").hide();
         $("#menu").show();
         $("#heading").html("Play Go");
+        $("#chat").hide();
+        $("#open-customize-popup").hide();
     });
 
     socket.on("illegalMove", function(data) {
